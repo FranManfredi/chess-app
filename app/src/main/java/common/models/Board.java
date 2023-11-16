@@ -89,7 +89,7 @@ public class Board {
         if (coordinate.row() > row || coordinate.column() > column || coordinate.row() < 1 || coordinate.column() < 1) {
             return false;
         }
-        return !Objects.equals(getSquare(coordinate).getPiece().getName(), "null");
+        return !Objects.equals(getSquare(coordinate).getPiece().getName(), PieceName.NULL);
     }
 
     public int getColumns() {
@@ -112,7 +112,7 @@ public class Board {
     public List<Piece> getCurrentPieces() {
         List<Piece> currentPieces = new ArrayList<>();
         for(BoardPosition square : squares){
-            if(!Objects.equals(square.getPiece().getName(), "null")){
+            if(!Objects.equals(square.getPiece().getName(), PieceName.NULL) ){
                 currentPieces.add(square.getPiece());
             }
         }

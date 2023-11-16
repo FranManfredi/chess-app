@@ -2,6 +2,7 @@ package chess.logic;
 
 import common.models.Board;
 import common.models.Piece;
+import common.models.PieceName;
 
 import java.util.Objects;
 
@@ -29,6 +30,6 @@ public class CommonMoveValidator {
         }
 
         Piece targetSquarePiece = chessBoard.getSquare(targetCoordinate).getPiece();
-        return Objects.equals(targetSquarePiece.getName(), "null") || !Objects.equals(targetSquarePiece.getColor(), chessPiece.getColor());
+        return Objects.equals(targetSquarePiece.getName(), PieceName.NULL) || !Objects.equals(targetSquarePiece.getColor(), chessPiece.getColor());
     }
 }

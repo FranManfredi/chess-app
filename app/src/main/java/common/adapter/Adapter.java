@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Objects;
 
 import common.models.Board;
-import common.models.BoardPosition;
 import common.models.Coordinate;
 import common.models.PieceName;
 import common.models.SideColor;
+import common.models.BoardPosition;
 import edu.austral.dissis.chess.gui.*;
 
 public class Adapter {

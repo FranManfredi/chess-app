@@ -3,6 +3,7 @@ package chess.logic;
 import common.models.Board;
 import common.models.Coordinate;
 import common.models.Piece;
+import common.models.PieceName;
 import common.moves.Move;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class MovementCalculator {
                 Coordinate finalSquare = new Coordinate(i, j);
 
                 if (shouldEat) {
-                    if (!Objects.equals(chessBoard.getSquare(finalSquare).getPiece().getName(), "null")
+                    if (!Objects.equals(chessBoard.getSquare(finalSquare).getPiece().getName(), PieceName.NULL)
                             && CommonMoveValidator.isValidMove(chessBoard, chessPiece, finalSquare)
                             && move.checkMove(initialSquare, finalSquare, chessBoard, chessPiece.getColor()).outputResult()
                             && !checkDuplicated(possibleMoves, finalSquare)) {

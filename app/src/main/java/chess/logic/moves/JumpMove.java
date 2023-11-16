@@ -7,31 +7,30 @@ import common.moves.Move;
 import common.results.CheckResult;
 
 public class JumpMove implements Move {
+    private final int rowsIncremented;
+    private final int columnIncremented;
 
-    private final int rowsIncrement;
-    private final int columnIncrement;
-
-    public JumpMove(int rowsIncrement, int columnIncrement) {
-        this.rowsIncrement = rowsIncrement;
-        this.columnIncrement = columnIncrement;
+    public JumpMove(int rowsIncremented, int columnIncremented) {
+        this.rowsIncremented = rowsIncremented;
+        this.columnIncremented = columnIncremented;
     }
-
     @Override
-    public CheckResult<Coordinate, Boolean> checkMove(Coordinate initialSquare, Coordinate finalSquare, Board board, SideColor color) {
-        boolean isJumpSuccessful = finalSquare.column() == initialSquare.column() + columnIncrement
-                && finalSquare.row() == initialSquare.row() + rowsIncrement;
-
-        return new CheckResult<>(finalSquare, isJumpSuccessful, isJumpSuccessful ? "Jump Movement Successful" : "Jump Movement Failed");
+    public CheckResult<Coordinate,Boolean> checkMove(Coordinate initialSquare, Coordinate finalSquare, Board board, SideColor color) {
+        if (finalSquare.column() == initialSquare.column() + columnIncremented && finalSquare.row() == initialSquare.row() + rowsIncremented){
+            return new CheckResult<>(finalSquare, true,"Jump Movement Successful");
+        } else {
+            return new CheckResult<>(finalSquare, false,"Jump Movement Failed");
+        }
     }
 
     @Override
     public int getRowsIncremented() {
-        return rowsIncrement;
+        return rowsIncremented;
     }
 
     @Override
     public int getColumnIncremented() {
-        return columnIncrement;
+        return columnIncremented;
     }
-    
+
 }
