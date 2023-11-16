@@ -1,6 +1,6 @@
-package chess.moves;
+package chess.logic.moves;
 
-import common.models.ChessBoard;
+import common.models.Board;
 import common.models.Coordinate;
 import common.models.SideColor;
 import common.moves.Move;
@@ -9,46 +9,49 @@ import common.results.CheckResult;
 import java.util.Objects;
 
 public class VerticalMove implements Move {
-
-    private int rowsIncrement;
+    int rowsIncremented;
     private final boolean backwardMove;
-    private final boolean isLimitless;
+    private final boolean limitless;
 
-    public VerticalMove(int rowsIncrement, boolean backwardMove) {
-        this.isLimitless = false;
-        this.rowsIncrement = rowsIncrement;
+    public VerticalMove(int rowsIncremented, boolean backwardMove) {
+        limitless = false;
+        this.rowsIncremented = rowsIncremented;
         this.backwardMove = backwardMove;
     }
 
-    public VerticalMove(boolean backwardMove) {
-        this.isLimitless = true;
+    public VerticalMove( boolean backwardMove){
+        limitless = true;
         this.backwardMove = backwardMove;
     }
 
     @Override
-    public CheckResult<Coordinate, Boolean> checkMove(Coordinate initialSquare, Coordinate finalSquare, ChessBoard board, SideColor side) {
+    public CheckResult<Coordinate,Boolean> checkMove(Coordinate initialSquare, Coordinate finalSquare, Board board, SideColor side) {
         checkLimitless(board);
-
         if (backwardMove) {
-            if (checkBackwardMove(initialSquare, finalSquare, board)) {
-                return new CheckResult<>(finalSquare, true, "Vertical Movement Successful");
+            if(checkBackwardMove(initialSquare, finalSquare, board)){
+                return new CheckResult<>(finalSquare, true,"Vertical Movement Successful");
             } else {
-                return new CheckResult<>(finalSquare, false, "Vertical Movement Failed");
+                return new CheckResult<>(finalSquare, false,"Vertical Movement Failed");
             }
         }
-
-        if (Objects.equals(side, SideColor.White) && isPathBlockedForward(initialSquare, finalSquare, board)) {
-            return new CheckResult<>(finalSquare, true, "Vertical Movement Successful");
-        } else if (isPathBlockedBackward(initialSquare, finalSquare, board)) {
-            return new CheckResult<>(finalSquare, true, "Vertical Movement Successful");
+        if (Objects.equals(side, SideColor.White)) {
+            if (isPathBlockedForward(initialSquare, finalSquare, board)){
+                return new CheckResult<>(finalSquare, true,"Vertical Movement Successful");
+            } else {
+                return new CheckResult<>(finalSquare, false,"Vertical Movement Failed");
+            }
         } else {
-            return new CheckResult<>(finalSquare, false, "Vertical Movement Failed");
+            if (isPathBlockedBackward(initialSquare, finalSquare, board)){
+                return new CheckResult<>(finalSquare, true,"Vertical Movement Successful");
+            } else {
+                return new CheckResult<>(finalSquare, false,"Vertical Movement Failed");
+            }
         }
     }
 
     @Override
     public int getRowsIncremented() {
-        return rowsIncrement;
+        return rowsIncremented;
     }
 
     @Override
@@ -56,37 +59,44 @@ public class VerticalMove implements Move {
         return 0;
     }
 
-    private boolean checkBackwardMove(Coordinate initialSquare, Coordinate finalSquare, ChessBoard board) {
+
+    private Boolean checkBackwardMove(Coordinate initialSquare, Coordinate finalSquare, Board board) {
         if (finalSquare.row() > initialSquare.row()) {
             return isPathBlockedForward(initialSquare, finalSquare, board);
-        } else {
+        } else
             return isPathBlockedBackward(initialSquare, finalSquare, board);
-        }
     }
 
-    private boolean isPathBlockedForward(Coordinate initialSquare, Coordinate finalSquare, ChessBoard board) {
+    public boolean isPathBlockedForward(Coordinate initialSquare, Coordinate finalSquare, Board board){
         for (int i = 1; i < finalSquare.row() - initialSquare.row(); i++) {
-            Coordinate coordinate = new Coordinate(initialSquare.column(), initialSquare.row() + i);
-            if (board.checkForPieceInSquare(coordinate)) {
+            Coordinate coordinate = new Coordinate(initialSquare.column(), initialSquare.row() +i);
+            if (board.checkForPieceInSquare(coordinate)){
                 return false;
             }
         }
-        return isLimitless || (finalSquare.column() == initialSquare.column() && finalSquare.row() == initialSquare.row() + rowsIncrement);
-    }
+        if (!limitless)
+            return finalSquare.column() == initialSquare.column() && finalSquare.row() == initialSquare.row() + rowsIncremented;
+        else
+            return finalSquare.column() == initialSquare.column();
 
-    private boolean isPathBlockedBackward(Coordinate initialSquare, Coordinate finalSquare, ChessBoard board) {
+    }
+    public boolean isPathBlockedBackward(Coordinate initialSquare, Coordinate finalSquare, Board board){
         for (int i = 1; i < initialSquare.row() - finalSquare.row(); i++) {
-            Coordinate coordinate = new Coordinate(initialSquare.column(), initialSquare.row() - i);
-            if (board.checkForPieceInSquare(coordinate)) {
+            Coordinate coordinate = new Coordinate(initialSquare.column(), initialSquare.row() -i);
+            if (board.checkForPieceInSquare(coordinate)){
                 return false;
             }
         }
-        return isLimitless || (finalSquare.column() == initialSquare.column() && finalSquare.row() == initialSquare.row() - rowsIncrement);
+        if (!limitless)
+            return finalSquare.column() == initialSquare.column() && finalSquare.row() == initialSquare.row() - rowsIncremented;
+        else
+            return finalSquare.column() == initialSquare.column();
     }
 
-    private void checkLimitless(ChessBoard board) {
-        if (isLimitless) {
-            rowsIncrement = board.getRows();
+    private void checkLimitless(Board board) {
+        if (limitless){
+            rowsIncremented = board.getRows();
         }
     }
+
 }

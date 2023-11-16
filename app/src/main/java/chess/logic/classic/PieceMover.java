@@ -1,15 +1,17 @@
-package chess.game.classic;
-
-import common.models.Board;
-import common.models.Coordinate;
-import common.models.Piece;
-import common.moves.Move;
-import common.results.CheckResult;
-import common.results.MoveResults;
+package chess.logic.classic;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import common.models.Board;
+import common.models.Coordinate;
+import common.models.MovementHistory;
+import common.models.Piece;
+import common.models.PieceBuilder;
+import common.moves.Move;
+import common.results.CheckResult;
+import common.results.MoveResults;
 
 public class PieceMover {
 

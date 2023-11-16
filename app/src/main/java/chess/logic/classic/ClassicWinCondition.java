@@ -1,12 +1,10 @@
-package chess.game.classic.condition;
+package chess.logic.classic;
 
 import common.logic.WinCondition;
 import common.models.Board;
 import common.models.Coordinate;
 import common.models.Piece;
 import common.results.MoveResults;
-import chess.game.classic.CheckForCheck;
-import chess.game.classic.CheckForCheckMate;
 
 public class ClassicWinCondition implements WinCondition {
 

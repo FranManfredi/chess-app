@@ -1,46 +1,58 @@
-package chess.moves;
+package chess.logic.moves;
 
-import common.models.ChessBoard;
+import common.models.Board;
 import common.models.Coordinate;
 import common.models.SideColor;
 import common.moves.Move;
 import common.results.CheckResult;
 
+
 public class HorizontalMove implements Move {
-
-    private final int columnsIncrement;
+    int columnsIncremented;
     private final boolean canJump;
-    private final boolean isLimitless;
+    private boolean limitless;
 
-    public HorizontalMove(int columnsIncrement, boolean canJump) {
-        this.columnsIncrement = columnsIncrement == 0 ? ChessBoard.MAX_COLUMNS : columnsIncrement;
+    public HorizontalMove(int columnsIncremented, boolean canJump) {
+        if (columnsIncremented == 0){
+            limitless = true;
+        }
+        this.columnsIncremented = columnsIncremented;
         this.canJump = canJump;
-        this.isLimitless = columnsIncrement == 0;
     }
-
-    public HorizontalMove(boolean canJump) {
-        this.columnsIncrement = ChessBoard.MAX_COLUMNS;
+    public HorizontalMove(boolean canJump){
+        limitless = true;
         this.canJump = canJump;
-        this.isLimitless = true;
     }
-
     @Override
-    public CheckResult<Coordinate, Boolean> checkMove(Coordinate initialSquare, Coordinate finalSquare, ChessBoard board, SideColor side) {
+    public CheckResult<Coordinate,Boolean> checkMove(Coordinate initialSquare, Coordinate finalSquare, Board board, SideColor side) {
         checkLimitless(board);
-
-        int columnDifference = finalSquare.column() - initialSquare.column();
-        int increment = columnDifference > 0 ? 1 : -1;
-
-        for (int i = 1; i < Math.abs(columnDifference); i++) {
-            Coordinate coordinate = new Coordinate(initialSquare.column() + i * increment, initialSquare.row());
-            if (board.checkForPieceInSquare(coordinate)) {
-                return new CheckResult<>(finalSquare, false, "Horizontal Movement Failed");
+        if(finalSquare.column() > initialSquare.column() && !canJump){
+            for(int i = 1; i < finalSquare.column() - initialSquare.column(); i++){
+                Coordinate coordinate = new Coordinate(initialSquare.column() +i, initialSquare.row());
+                if(board.checkForPieceInSquare(coordinate)){
+                    return new CheckResult<>(finalSquare, false,"Horizontal Movement Failed");
+                }
+            }
+            if (finalSquare.row() == initialSquare.row()){
+                return new CheckResult<>(finalSquare, true,"Horizontal Movement Successful");
+            } else {
+                return new CheckResult<>(finalSquare, false,"Horizontal Movement Failed");
             }
         }
-
-        return (finalSquare.row() == initialSquare.row())
-                ? new CheckResult<>(finalSquare, true, "Horizontal Movement Successful")
-                : new CheckResult<>(finalSquare, false, "Horizontal Movement Failed");
+        else if(finalSquare.column() < initialSquare.column() && !canJump){
+            for(int i = 1; i < initialSquare.column() - finalSquare.column(); i++){
+                Coordinate coordinate = new Coordinate(initialSquare.column() -i, initialSquare.row());
+                if(board.checkForPieceInSquare(coordinate)){
+                    return new CheckResult<>(finalSquare, false,"Horizontal Movement Failed");
+                }
+            }
+            if (finalSquare.row() == initialSquare.row()){
+                return new CheckResult<>(finalSquare, true,"Horizontal Movement Successful");
+            } else {
+                return new CheckResult<>(finalSquare, false,"Horizontal Movement Failed");
+            }
+        }
+        return new CheckResult<>(finalSquare, false,"Horizontal Movement Failed");
     }
 
     @Override
@@ -50,12 +62,13 @@ public class HorizontalMove implements Move {
 
     @Override
     public int getColumnIncremented() {
-        return columnsIncrement;
+        return columnsIncremented;
     }
 
-    private void checkLimitless(ChessBoard board) {
-        if (isLimitless) {
-            columnsIncrement = board.getColumns();
+
+    private void checkLimitless(Board board) {
+        if (limitless){
+            columnsIncremented = board.getColumns();
         }
     }
 }

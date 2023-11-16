@@ -1,14 +1,13 @@
-package chess.rules;
+package chess.logic;
 
-import chess.models.Coordinate;
-import chess.models.ChessBoard;
-import chess.models.ChessPiece;
+import common.models.Board;
+import common.models.Piece;
 
 import java.util.Objects;
 
 public class CommonMoveValidator {
 
-    public static boolean isValidMove(ChessBoard chessBoard, ChessPiece chessPiece, Coordinate targetCoordinate) {
+    public static boolean isValidMove(Board chessBoard, Piece chessPiece, common.models.Coordinate targetCoordinate) {
         if (chessBoard.getSquareOfPiece(chessPiece) == null) {
             return false;
         }
@@ -23,13 +22,13 @@ public class CommonMoveValidator {
             return false;
         }
 
-        Coordinate currentPieceCoordinate = chessBoard.getSquareOfPiece(chessPiece).successfulResult().get();
+        common.models.Coordinate currentPieceCoordinate = chessBoard.getSquareOfPiece(chessPiece).successfulResult().get();
 
         if (targetColumn == currentPieceCoordinate.column() && targetRow == currentPieceCoordinate.row()) {
             return false;
         }
 
-        ChessPiece targetSquarePiece = chessBoard.getSquare(targetCoordinate).getPiece();
+        Piece targetSquarePiece = chessBoard.getSquare(targetCoordinate).getPiece();
         return Objects.equals(targetSquarePiece.getName(), "null") || !Objects.equals(targetSquarePiece.getColor(), chessPiece.getColor());
     }
 }

@@ -1,6 +1,6 @@
-package chess.moves;
+package chess.logic.moves;
 
-import common.models.ChessBoard;
+import common.models.Board;
 import common.models.Coordinate;
 import common.models.SideColor;
 import common.moves.Move;
@@ -17,7 +17,7 @@ public class JumpMove implements Move {
     }
 
     @Override
-    public CheckResult<Coordinate, Boolean> checkMove(Coordinate initialSquare, Coordinate finalSquare, ChessBoard board, SideColor color) {
+    public CheckResult<Coordinate, Boolean> checkMove(Coordinate initialSquare, Coordinate finalSquare, Board board, SideColor color) {
         boolean isJumpSuccessful = finalSquare.column() == initialSquare.column() + columnIncrement
                 && finalSquare.row() == initialSquare.row() + rowsIncrement;
 
@@ -33,4 +33,5 @@ public class JumpMove implements Move {
     public int getColumnIncremented() {
         return columnIncrement;
     }
+    
 }
