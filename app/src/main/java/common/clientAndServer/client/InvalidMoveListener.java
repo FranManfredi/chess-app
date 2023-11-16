@@ -16,3 +16,4 @@ public class InvalidMoveListener implements MessageListener<InvalidMove> {
         gameClient.handleInvalidMove(message.getPayload());
     }
 }
+

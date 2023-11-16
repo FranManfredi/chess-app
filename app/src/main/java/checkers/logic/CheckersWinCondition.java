@@ -7,8 +7,8 @@ import common.logic.WinCondition;
 import common.results.MoveResults;
 
 public class CheckersWinCondition implements WinCondition {
-    private final CheckWinNoMorePieces CheckForWinByNoMorePieces = new CheckWinNoMorePieces();
-    private final CheckWinNoMoreMoves CheckForWinByNoMoreMoves = new CheckWinNoMoreMoves();
+    private final CheckForWinByNoMorePieces CheckForWinByNoMorePieces = new CheckForWinByNoMorePieces();
+    private final CheckForWinByNoMoreMoves CheckForWinByNoMoreMoves = new CheckForWinByNoMoreMoves();
 
     @Override
     public MoveResults<Board, Boolean> checkWin(Board board, Piece piece, MoveResults<Board, Boolean> move, Coordinate toSquare) {

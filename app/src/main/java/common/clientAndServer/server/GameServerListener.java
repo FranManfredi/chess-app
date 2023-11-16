@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class GameServerListener implements ServerConnectionListener {
 
-    private final GameServer gameServer;
+    GameServer gameServer;
 
     public GameServerListener(GameServer gameServer) {
         this.gameServer = gameServer;
@@ -13,22 +13,11 @@ public class GameServerListener implements ServerConnectionListener {
 
     @Override
     public void handleClientConnection(@NotNull String s) {
-        try {
-            if (gameServer != null) {
-                gameServer.handleNewGame();
-            } else {
-              
-                System.err.println("GameServer is null in GameServerListener.handleClientConnection");
-            }
-        } catch (Exception e) {
-           
-            e.printStackTrace();
-        }
+        gameServer.handleNewGame();
     }
 
     @Override
-    @SuppressWarnings("unused")
     public void handleClientConnectionClosed(@NotNull String s) {
-        
+
     }
 }

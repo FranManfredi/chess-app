@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Piece{
-    private final PieceName pieceName;
+    private final String pieceName;
     private final Coordinate initialSquare;
     private final List<Move> movements;
     private final List<Move> eatMovements;
@@ -18,7 +18,7 @@ public class Piece{
     private final Boolean isImportant;
     private final int id;
 
-    public Piece(PieceName pieceName, Coordinate initialSquare, List<Move> movements, List<Move> eatMovements, SideColor color, boolean isImportant, int id) {
+    public Piece(String pieceName, Coordinate initialSquare, List<Move> movements, List<Move> eatMovements, SideColor color, boolean isImportant, int id) {
         this.pieceName = pieceName;
         this.initialSquare = initialSquare;
         this.color = color;
@@ -28,7 +28,7 @@ public class Piece{
         this.id = id;
     }
 
-    public Piece(PieceName pieceName, Coordinate initialSquare, List<Move> movements, SideColor color, boolean isImportant, int id) {
+    public Piece(String pieceName, Coordinate initialSquare, List<Move> movements, SideColor color, boolean isImportant, int id) {
         this.pieceName = pieceName;
         this.initialSquare = initialSquare;
         this.color = color;
@@ -39,17 +39,17 @@ public class Piece{
     }
 
     public MoveResults<Board, Boolean> movePiece(Coordinate initial, Coordinate toSquare, Board board, WinCondition winCondition, CheckLegalMove checkLegalMove) {
-        if (!CommonMoveValidator.isValidMove(board, this, toSquare)) {
+        if (!CommonRule.checkRule(board, this, toSquare)) {
             return new MoveResults<>(board, true, "Common Rule unfollowed");
         }
-        if (!Objects.equals(board.getSquare(toSquare).getPiece().getName(), PieceName.NULL)) {
+        if (!Objects.equals(board.getSquare(toSquare).getPiece().getName(), "null")) {
             return checkLegalMove.check(this,toSquare, board, initial, eatMovements,winCondition);
         } else {
             return checkLegalMove.check(this,toSquare, board, initial, movements,winCondition);
         }
     }
 
-    public PieceName getName() {
+    public String getName() {
         return pieceName;
     }
 

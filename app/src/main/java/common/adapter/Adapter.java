@@ -6,17 +6,16 @@ import java.util.Objects;
 
 import common.models.Board;
 import common.models.Coordinate;
-import common.models.PieceName;
 import common.models.SideColor;
-import common.models.BoardPosition;
+import common.models.Square;
 import edu.austral.dissis.chess.gui.*;
 
 public class Adapter {
     public static List<ChessPiece> getCurrentPieces(Board board) {
         List<ChessPiece> pieces = new ArrayList<>();
-        for (BoardPosition square : board.getSquares()) {
-            if (!Objects.equals(square.getPiece().getName(), PieceName.NULL))
-                pieces.add(new ChessPiece(String.valueOf(square.getPiece().getId()),convertPlayerColor(square.getPiece().getColor()), convertCoordinateToPosition(square.getCoordinate()), square.getPiece().getName().toString().toLowerCase()));
+        for (Square square : board.getSquares()) {
+            if (!Objects.equals(square.getPiece().getName(), "null"))
+                pieces.add(new ChessPiece(String.valueOf(square.getPiece().getId()),convertPlayerColor(square.getPiece().getColor()), convertCoordinateToPosition(square.getCoordinate()), square.getPiece().getName()));
             }
         return pieces;
     }

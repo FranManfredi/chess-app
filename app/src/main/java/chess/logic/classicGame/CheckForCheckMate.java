@@ -1,6 +1,7 @@
-package chess.logic.classic;
+package chess.logic.classicGame;
 
-
+import chess.logic.MoveValidation;
+import chess.logic.PossibleMovements;
 import common.models.Board;
 import common.models.Coordinate;
 import common.models.Piece;
@@ -8,12 +9,9 @@ import common.models.SideColor;
 
 import java.util.List;
 
-import chess.logic.MoveValidator;
-import chess.logic.MovementCalculator;
-
 public class CheckForCheckMate {
-        private final MoveValidator moveValidation = new MoveValidator();
-        private final MovementCalculator possibleMovements = new MovementCalculator();
+        private final MoveValidation moveValidation = new MoveValidation();
+        private final PossibleMovements possibleMovements = new PossibleMovements();
         public Boolean check(Board board, SideColor color, List<Piece> pieces, CheckForCheck checkForCheck){
             SideColor oppositeColor = color == SideColor.White ? SideColor.Black : SideColor.White;
             for (Piece piece : pieces) {
@@ -22,9 +20,9 @@ public class CheckForCheckMate {
                         continue;
                     }
                     Coordinate initialSquare = board.getSquareOfPiece(piece).successfulResult().get();
-                    List<Coordinate> possibleMoves = possibleMovements.calculatePossibleMovements(board,piece, initialSquare);
+                    List<Coordinate> possibleMoves = possibleMovements.getPossibleMovements(board,piece, initialSquare);
                     for (Coordinate possibleMove : possibleMoves) {
-                        if(!moveValidation.isValidMove(piece, board,possibleMove, initialSquare)){
+                        if(!moveValidation.validateMove(piece, board,possibleMove, initialSquare)){
                             continue;
                         }
                         Board newBoard = board.positionPiece(piece, possibleMove);

@@ -1,7 +1,7 @@
 package edu.austral.dissis.chess
 
 import checkers.logic.CheckersGame
-import chess.logic.classic.ClassicGame
+import chess.logic.classicGame.ClassicGame
 import common.adapter.DefaultGameEngine
 import common.clientAndServer.server.GameServer
 import edu.austral.dissis.chess.gui.CachedImageResolver

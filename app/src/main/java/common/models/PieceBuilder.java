@@ -13,7 +13,7 @@ public class PieceBuilder {
     private boolean isImportant;
     private final List<Piece> pieces = new ArrayList<>();
 
-    public Piece createPiece(PieceName pieceName,Coordinate coordinate, List<Move> movements, List<Move> eatMovements, boolean isImportant, SideColor color) {
+    public Piece createPiece(String pieceName,Coordinate coordinate, List<Move> movements, List<Move> eatMovements, boolean isImportant, SideColor color) {
         this.movements = movements;
         this.eatMovements = eatMovements;
         this.isImportant = isImportant;
@@ -23,7 +23,7 @@ public class PieceBuilder {
         return newPiece;
     }
 
-    public Piece createPiece(PieceName pieceName,Coordinate coordinate, List<Move> movements, boolean isImportant, SideColor color) {
+    public Piece createPiece(String pieceName,Coordinate coordinate, List<Move> movements, boolean isImportant, SideColor color) {
         this.movements = movements;
         this.eatMovements = movements;
         this.isImportant = isImportant;
@@ -32,7 +32,7 @@ public class PieceBuilder {
         pieces.add(newPiece);
         return newPiece;
     }
-     public Piece clonePiece(PieceName pieceName, Coordinate coordinate,SideColor color){
+     public Piece clonePiece(String pieceName, Coordinate coordinate,SideColor color){
         for (Piece piece : pieces) {
             if (Objects.equals(piece.getName(), pieceName)){
                 this.movements = piece.getMovements();
@@ -46,7 +46,7 @@ public class PieceBuilder {
      }
 
      public Piece createNullPiece(Coordinate coordinate){
-        return new Piece(PieceName.NULL, coordinate, new ArrayList<>(), new ArrayList<>(), SideColor.NULL, false, 0);
+        return new Piece("null", coordinate, new ArrayList<>(), new ArrayList<>(), SideColor.NULL, false, 0);
      }
 
 }

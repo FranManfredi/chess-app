@@ -9,4 +9,3 @@ public record TurnHandler(SideColor turn) {
         return new TurnHandler(SideColor.White);
     }
 }
-

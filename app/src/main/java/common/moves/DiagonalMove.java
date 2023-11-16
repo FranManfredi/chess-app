@@ -5,31 +5,31 @@ import common.models.Coordinate;
 import common.models.SideColor;
 import common.results.CheckResult;
 
+
 public class DiagonalMove implements Move {
     private int rowsIncremented;
     private int columnIncremented;
     private int rowsCount;
     private int columnCount;
-
     public DiagonalMove(int rowsIncremented, int columnIncremented) {
         this.rowsIncremented = rowsIncremented;
         this.columnIncremented = columnIncremented;
     }
-
     public DiagonalMove() {
     }
 
     @Override
-    public CheckResult<Coordinate, Boolean> checkMove(Coordinate initialSquare, Coordinate finalSquare, Board board, SideColor color) {
-        if (!isValidDiagonalMovement(initialSquare, finalSquare))
-            return new CheckResult<>(finalSquare, false, "Diagonal Movement Failed");
-
+    public CheckResult<Coordinate,Boolean> checkMove(Coordinate initialSquare, Coordinate finalSquare, Board board, SideColor color) {
+        if (Math.abs(finalSquare.column() - initialSquare.column()) != Math.abs(finalSquare.row() - initialSquare.row()))
+            return new CheckResult<>(finalSquare, false,"Diagonal Movement Failed");
         checkForDirection(initialSquare, finalSquare);
-
-        if (isDiagonalClear(board, initialSquare, finalSquare))
-            return new CheckResult<>(finalSquare, true, "Diagonal Movement Successful");
-        else
-            return new CheckResult<>(finalSquare, false, "Diagonal Movement Failed");
+        if(isDiagonalClear(board,initialSquare, finalSquare))
+            if (finalSquare.column() == initialSquare.column() + columnIncremented * columnCount && finalSquare.row() == initialSquare.row() + rowsIncremented * rowsCount){
+                return new CheckResult<>(finalSquare, true,"Diagonal Movement Successful");
+            } else {
+                return new CheckResult<>(finalSquare, false,"Diagonal Movement Failed");
+            }
+        return new CheckResult<>(finalSquare, false,"Diagonal Movement Failed");
     }
 
     @Override
@@ -42,11 +42,8 @@ public class DiagonalMove implements Move {
         return columnIncremented;
     }
 
-    private boolean isValidDiagonalMovement(Coordinate initialSquare, Coordinate finalSquare) {
-        return Math.abs(finalSquare.column() - initialSquare.column()) == Math.abs(finalSquare.row() - initialSquare.row());
-    }
 
-    private boolean isDiagonalClear(Board board, Coordinate initialSquare, Coordinate finalSquare) {
+    public boolean isDiagonalClear(Board board, Coordinate initialSquare, Coordinate finalSquare) {
         rowsCount = Integer.compare(finalSquare.row(), initialSquare.row());
         columnCount = Integer.compare(finalSquare.column(), initialSquare.column());
 
@@ -66,12 +63,12 @@ public class DiagonalMove implements Move {
     }
 
     private void checkForDirection(Coordinate initialSquare, Coordinate finalSquare) {
-        if (finalSquare.column() < initialSquare.column()) {
+        if(finalSquare.column() < initialSquare.column()){
             columnIncremented *= -1;
         }
-        if (finalSquare.row() < initialSquare.row()) {
+        if(finalSquare.row() < initialSquare.row()){
             rowsIncremented *= -1;
         }
     }
-}
 
+}

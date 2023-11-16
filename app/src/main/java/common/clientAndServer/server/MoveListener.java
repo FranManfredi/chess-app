@@ -15,14 +15,7 @@ public class MoveListener implements MessageListener<Move> {
 
     @Override
     public void handleMessage(@NotNull Message<Move> message) {
-        try {
-            if (gameListener != null) {
-                gameListener.handleMove(message.getPayload());
-            } else {
-                System.err.println("GameEventListener is null in MoveListener.handleMessage");
-            }
-        } catch (Exception e) {
-                        e.printStackTrace();
-        }
+        gameListener.handleMove(message.getPayload());
     }
 }
+

@@ -7,47 +7,47 @@ import common.moves.Move;
 import common.results.CheckResult;
 
 public class CheckersEatMove implements Move {
-    private final int rowsIncrement;
-    private final int columnIncrement;
+    private final int rowsIncremented;
+    private final int columnIncremented;
 
-    public CheckersEatMove(int rowsIncrement, int columnIncrement) {
-        this.rowsIncrement = rowsIncrement;
-        this.columnIncrement = columnIncrement;
+    CheckersEatMove(int rowsIncremented, int columnIncremented) {
+        this.rowsIncremented = rowsIncremented;
+        this.columnIncremented = columnIncremented;
     }
 
     @Override
     public CheckResult<Coordinate, Boolean> checkMove(Coordinate initialSquare, Coordinate finalSquare, Board board, SideColor color) {
-        int targetRow = (color == SideColor.White) ? finalSquare.row() + rowsIncrement : finalSquare.row() - rowsIncrement;
-
-        if (isValidColumnDirection(initialSquare, finalSquare)) {
-            Coordinate targetSquare = new Coordinate(finalSquare.column() + columnIncrement, targetRow);
-
-            if (board.checkForPieceInSquare(targetSquare) || !isValidSquare(targetSquare, board)) {
-                return new CheckResult<>(targetSquare, false, "Jump Movement Failed");
-            }
-
-            return new CheckResult<>(targetSquare, true, "Jump Movement Successful");
+        int resRow;
+        if (checkSide(color)){
+            resRow = finalSquare.row() + rowsIncremented;
+        } else {
+            resRow = finalSquare.row() - rowsIncremented;
         }
-
+            if(checkColumn(initialSquare,finalSquare)) {
+                Coordinate resSquare = new Coordinate(finalSquare.column() + columnIncremented, resRow);
+                if (board.checkForPieceInSquare(resSquare) || !checkPiceInBoard(resSquare, board)) {
+                    return new CheckResult<>(resSquare, false, "Jump Movement Failed");
+                }
+                return new CheckResult<>(resSquare, true, "Jump Movement Successful");
+            }
         return new CheckResult<>(finalSquare, false, "Jump Movement Failed");
     }
 
-    private boolean isValidSquare(Coordinate targetSquare, Board board) {
-        int maxRow = board.getRows();
-        int maxColumn = board.getColumns();
-
-        return targetSquare.row() <= maxRow && targetSquare.row() > 0 &&
-               targetSquare.column() <= maxColumn && targetSquare.column() > 0;
+    private boolean checkPiceInBoard(Coordinate resSquare, Board board) {
+        int row = board.getRows();
+        int column = board.getColumns();
+        return resSquare.row() <= row && resSquare.row() > 0 && resSquare.column() <= column && resSquare.column() > 0;
     }
 
-    private boolean isValidColumnDirection(Coordinate initialSquare, Coordinate finalSquare) {
+    private Boolean checkColumn(Coordinate initialSquare, Coordinate finalSquare){
         int direction = finalSquare.column() - initialSquare.column();
-        int directionSign = Integer.signum(direction);
-        int incrementSign = Integer.signum(columnIncrement);
-
-        return directionSign == incrementSign;
+        int sign1 = Integer.signum(direction);
+        int sign2 = Integer.signum(columnIncremented);
+        return sign1 == sign2;
     }
-
+    private Boolean checkSide(SideColor color) {
+        return color == SideColor.White;
+    }
     @Override
     public int getRowsIncremented() {
         return 0;

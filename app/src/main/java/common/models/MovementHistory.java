@@ -1,5 +1,4 @@
 package common.models;
 
-public record MovementHistory(Coordinate from, Coordinate to, Piece piece) {
+public record MovementHistory(Coordinate initialSquare, Coordinate finalSquare, Piece piece) {
 }
-
