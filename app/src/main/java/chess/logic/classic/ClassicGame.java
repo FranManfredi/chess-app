@@ -1,6 +1,7 @@
 package chess.logic.classic;
 
 import chess.logic.classic.rules.ClassicWinCondition;
+import chess.logic.moves.InitialVerticalMove;
 import common.models.*;
 import common.moves.Move;
 import common.moves.DiagonalMove;
@@ -21,7 +22,7 @@ import java.util.List;
 
             List<Move> pawnMovements = new ArrayList<>();
             pawnMovements.add(new VerticalMove(1, false));
-            pawnMovements.add(new VerticalMove(2, false));
+            pawnMovements.add(new InitialVerticalMove(2, false));
 
             List<Move> pawnEatMoves = new ArrayList<>();
             pawnEatMoves.add(new DiagonalMove(1, -1, false));

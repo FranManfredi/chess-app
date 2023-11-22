@@ -1,6 +1,7 @@
 package edu.austral.dissis.chess
 
 import checkers.logic.checkers.CheckersGame
+import chess.logic.capablanca.CapablancaChess
 import chess.logic.classic.ClassicGame
 import common.adapter.DefaultGameEngine
 import common.client_server.server.GameServer
@@ -19,7 +20,7 @@ fun main() {
 }
 
 class ChessGameApplication : Application() {
-    private val gameEngine = DefaultGameEngine(ClassicGame.CreateGame())
+    private val gameEngine = DefaultGameEngine(CapablancaChess.CreateGame())
     private val imageResolver = CachedImageResolver(DefaultImageResolver())
     private val root = GameView(imageResolver)
     private val server = NettyServerBuilder.createDefault()
