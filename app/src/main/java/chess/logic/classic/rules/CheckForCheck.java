@@ -1,4 +1,4 @@
-package chess.logic.classicGame;
+package chess.logic.classic.rules;
 
 import common.models.Board;
 import common.models.Coordinate;

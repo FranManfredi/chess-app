@@ -1,4 +1,4 @@
-package checkers.logic;
+package checkers.logic.rules;
 
 import common.models.Board;
 import common.models.Coordinate;

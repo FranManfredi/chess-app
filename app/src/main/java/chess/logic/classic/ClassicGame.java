@@ -1,5 +1,6 @@
-package chess.logic.classicGame;
+package chess.logic.classic;
 
+import chess.logic.classic.rules.ClassicWinCondition;
 import common.models.*;
 import common.moves.Move;
 import common.moves.DiagonalMove;

@@ -1,4 +1,4 @@
-package checkers.logic;
+package checkers.logic.rules;
 
 import common.logic.PossibleMovements;
 import common.models.Board;

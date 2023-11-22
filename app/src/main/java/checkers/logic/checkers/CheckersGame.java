@@ -1,5 +1,7 @@
-package checkers.logic;
+package checkers.logic.checkers;
 
+import checkers.logic.moves.CheckersEatMove;
+import checkers.logic.rules.CheckersWinCondition;
 import common.models.*;
 import common.moves.DiagonalMove;
 import common.moves.Move;

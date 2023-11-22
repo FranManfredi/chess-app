@@ -1,4 +1,4 @@
-package chess.logic.classicGame;
+package chess.logic.classic.rules;
 
 import common.logic.WinCondition;
 import common.models.Board;
