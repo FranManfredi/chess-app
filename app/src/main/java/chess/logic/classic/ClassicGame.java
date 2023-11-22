@@ -24,8 +24,8 @@ import java.util.List;
             pawnMovements.add(new VerticalMove(2, false));
 
             List<Move> pawnEatMoves = new ArrayList<>();
-            pawnEatMoves.add(new DiagonalMove(1, -1));
-            pawnEatMoves.add(new DiagonalMove(1, 1));
+            pawnEatMoves.add(new DiagonalMove(1, -1, false));
+            pawnEatMoves.add(new DiagonalMove(1, 1, false));
 
             List<Move> rookMovements = new ArrayList<>();
             rookMovements.add(new VerticalMove( true));
@@ -52,8 +52,8 @@ import java.util.List;
             List<Move> kingMovements = new ArrayList<>();
             kingMovements.add(new VerticalMove(1, true));
             kingMovements.add(new HorizontalMove(1));
-            kingMovements.add(new DiagonalMove(1, 1));
-            kingMovements.add(new DiagonalMove(1, -1));
+            kingMovements.add(new DiagonalMove(1, 1, true));
+            kingMovements.add(new DiagonalMove(1, -1, true));
 
             whitePieces.add(pieceBuilder.createPiece("pawn", new Coordinate(1, 2), pawnMovements, pawnEatMoves, false, SideColor.White));
             whitePieces.add(pieceBuilder.clonePiece("pawn", new Coordinate(2, 2), SideColor.White));

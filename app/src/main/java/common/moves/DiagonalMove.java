@@ -9,14 +9,17 @@ import common.results.CheckResult;
 public class DiagonalMove implements Move {
     private final int rowsIncremented;
     private final int columnIncremented;
+    private final boolean backwardMove;
     private int rowTemp;
     private int columnTemp;
 
-    public DiagonalMove(int rowsIncremented, int columnIncremented) {
+    public DiagonalMove(int rowsIncremented, int columnIncremented, boolean backwardMove) {
+        this.backwardMove = backwardMove;
         this.rowsIncremented = rowsIncremented;
         this.columnIncremented = columnIncremented;
     }
     public DiagonalMove() {
+        this.backwardMove = true;
         this.rowsIncremented = 0;
         this.columnIncremented = 0 ;
     }
@@ -25,8 +28,12 @@ public class DiagonalMove implements Move {
 
     @Override
     public CheckResult<Coordinate,Boolean> checkMove(Coordinate initialSquare, Coordinate finalSquare, Board board, SideColor color) {
+
         if (Math.abs(finalSquare.column() - initialSquare.column()) != Math.abs(finalSquare.row() - initialSquare.row()))
             return new CheckResult<>(finalSquare, false,"Diagonal Movement Failed");
+        else if (isGoingBackwardsIllegally(initialSquare, finalSquare, color)) {
+            return new CheckResult<>(finalSquare, false,"Diagonal Movement Failed");
+        }
         rowTemp = checkRowTemp(initialSquare, finalSquare);
         columnTemp = checkColumnTemp(initialSquare, finalSquare);
         checkForDirection(initialSquare, finalSquare);
@@ -37,6 +44,15 @@ public class DiagonalMove implements Move {
                 return new CheckResult<>(finalSquare, false,"Diagonal Movement Failed");
             }
         return new CheckResult<>(finalSquare, false,"Diagonal Movement Failed");
+    }
+
+    private boolean isGoingBackwardsIllegally(Coordinate initialSquare, Coordinate finalSquare, SideColor color) {
+        if (backwardMove){
+            return false;
+        } else if ( color == SideColor.White) {
+            return initialSquare.row() > finalSquare.row();
+        }
+        return initialSquare.row() < finalSquare.row();
     }
 
     private int checkColumnTemp(Coordinate initialSquare, Coordinate finalSquare) {

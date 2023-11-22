@@ -18,8 +18,8 @@ public class CheckersGame {
         PieceBuilder pieceBuilder = new PieceBuilder();
 
         List<Move> pieceMovements = new ArrayList<>();
-        pieceMovements.add(new DiagonalMove(1, 1));
-        pieceMovements.add(new DiagonalMove(1, -1));
+        pieceMovements.add(new DiagonalMove(1, 1, false));
+        pieceMovements.add(new DiagonalMove(1, -1, false));
 
         List<Move> pieceEatMoves = new ArrayList<>();
         pieceEatMoves.add(new CheckersEatMove(1, 1));
