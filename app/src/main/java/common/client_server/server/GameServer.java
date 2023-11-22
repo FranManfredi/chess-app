@@ -1,4 +1,4 @@
-package common.clientAndServer.server;
+package common.client_server.server;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import edu.austral.dissis.chess.gui.*;

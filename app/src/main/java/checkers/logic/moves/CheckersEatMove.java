@@ -10,7 +10,7 @@ public class CheckersEatMove implements Move {
     private final int rowsIncremented;
     private final int columnIncremented;
 
-    CheckersEatMove(int rowsIncremented, int columnIncremented) {
+    public CheckersEatMove(int rowsIncremented, int columnIncremented) {
         this.rowsIncremented = rowsIncremented;
         this.columnIncremented = columnIncremented;
     }

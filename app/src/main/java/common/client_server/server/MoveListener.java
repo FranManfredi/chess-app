@@ -1,4 +1,4 @@
-package common.clientAndServer.server;
+package common.client_server.server;
 
 import edu.austral.dissis.chess.gui.GameEventListener;
 import edu.austral.dissis.chess.gui.Move;

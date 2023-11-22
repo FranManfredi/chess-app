@@ -1,4 +1,4 @@
-package common.clientAndServer.server;
+package common.client_server.server;
 
 import edu.austral.ingsis.clientserver.ServerConnectionListener;
 import org.jetbrains.annotations.NotNull;
