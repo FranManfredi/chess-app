@@ -18,7 +18,7 @@ public class Game {
     private final CheckLegalMove checkLegalMove;
 
 
-    public Game(Player player1, Player player2, Board board,SideColor startingPlayer, WinCondition winCondition) {
+    public Game(Player player1, Player player2, Board board, SideColor startingPlayer, WinCondition winCondition) {
         this.player1 = player1;
         this.player2 = player2;
         this.boardStack.push(board);
@@ -29,7 +29,6 @@ public class Game {
     }
 
     public void setGame() {
-        System.out.println("Game Started");
         Random rand = new Random();
         int randomNum = rand.nextInt(2);
         if (randomNum == 0) {

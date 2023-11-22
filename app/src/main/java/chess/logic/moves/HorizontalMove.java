@@ -9,24 +9,21 @@ import common.results.CheckResult;
 
 public class HorizontalMove implements Move {
     int columnsIncremented;
-    private final boolean canJump;
     private boolean limitless;
 
-    public HorizontalMove(int columnsIncremented, boolean canJump) {
+    public HorizontalMove(int columnsIncremented) {
         if (columnsIncremented == 0){
             limitless = true;
         }
         this.columnsIncremented = columnsIncremented;
-        this.canJump = canJump;
     }
-    public HorizontalMove(boolean canJump){
+    public HorizontalMove(){
         limitless = true;
-        this.canJump = canJump;
     }
     @Override
     public CheckResult<Coordinate,Boolean> checkMove(Coordinate initialSquare, Coordinate finalSquare, Board board, SideColor side) {
         checkLimitless(board);
-        if(finalSquare.column() > initialSquare.column() && !canJump){
+        if(finalSquare.column() > initialSquare.column()){
             for(int i = 1; i < finalSquare.column() - initialSquare.column(); i++){
                 Coordinate coordinate = new Coordinate(initialSquare.column() +i, initialSquare.row());
                 if(board.checkForPieceInSquare(coordinate)){
@@ -39,7 +36,7 @@ public class HorizontalMove implements Move {
                 return new CheckResult<>(finalSquare, false,"Horizontal Movement Failed");
             }
         }
-        else if(finalSquare.column() < initialSquare.column() && !canJump){
+        else if(finalSquare.column() < initialSquare.column()){
             for(int i = 1; i < initialSquare.column() - finalSquare.column(); i++){
                 Coordinate coordinate = new Coordinate(initialSquare.column() -i, initialSquare.row());
                 if(board.checkForPieceInSquare(coordinate)){

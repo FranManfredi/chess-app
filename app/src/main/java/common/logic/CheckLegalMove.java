@@ -1,6 +1,5 @@
 package common.logic;
 
-import chess.logic.classicGame.PieceMover;
 import common.models.Board;
 import common.models.Coordinate;
 import common.moves.Move;

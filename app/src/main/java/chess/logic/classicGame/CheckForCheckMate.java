@@ -1,7 +1,7 @@
 package chess.logic.classicGame;
 
-import chess.logic.MoveValidation;
-import chess.logic.PossibleMovements;
+import common.logic.MoveValidation;
+import common.logic.PossibleMovements;
 import common.models.Board;
 import common.models.Coordinate;
 import common.models.Piece;

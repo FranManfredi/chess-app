@@ -1,6 +1,6 @@
 package common.models;
 
-import chess.logic.*;
+import common.logic.CommonRule;
 import common.logic.CheckLegalMove;
 import common.logic.WinCondition;
 import common.moves.Move;

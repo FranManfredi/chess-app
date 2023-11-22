@@ -13,19 +13,20 @@ public class Board {
     private final int column;
     private final int row;
     private final List<MovementHistory> movements;
+    PieceBuilder pieceBuilder;
 
-    public Board(int row, int column, List<Piece> blackPieces, List<Piece> whitePieces) {
+    public Board(int row, int column, List<Piece> blackPieces, List<Piece> whitePieces, PieceBuilder pieceBuilder) {
         squares = new Square[row * column];
         whitePieces.addAll(blackPieces);
         this.pieces = whitePieces;
         this.column = column;
         this.row = row;
         this.movements = new ArrayList<>();
+        this.pieceBuilder = pieceBuilder;
 
         for (int i = 1; i <= row; i++) {
             for (int j = 1; j <= column; j++) {
                 int index = (i - 1) * column + j - 1;
-                PieceBuilder pieceBuilder = new PieceBuilder();
                 squares[index] = new Square(new Coordinate(j, i), pieceBuilder.createNullPiece(new Coordinate(j, i)));
             }
         }
@@ -37,20 +38,21 @@ public class Board {
             square.setPiece(piece);
         }
     }
-    public Board(int row, int column, List<Piece> pieces, Square[] squares, List<MovementHistory> movements) {
+    public Board(int row, int column, List<Piece> pieces, Square[] squares, List<MovementHistory> movements, PieceBuilder pieceBuilder) {
         this.row = row;
         this.column = column;
         this.squares = squares;
         this.pieces = pieces;
         this.movements = new ArrayList<>(movements);
+        this.pieceBuilder = pieceBuilder;
     }
 
     public Board positionPiece(Piece piece, Coordinate position) {
-        Square square = squares[position.column() - 1 + (position.row() - 1) * this.row];
+        Square square = squares[this.column * (position.row() - 1) + (position.column() - 1)];
         square = new Square(square.getCoordinate(), piece);
         Square[] newSquares = this.squares.clone();
-        newSquares[position.column() - 1 + (position.row() - 1) * this.row] = square;
-        return new Board(row,column,this.pieces,newSquares,this.getMovements());
+        newSquares[this.column * (position.row() - 1) + (position.column() - 1)] = square;
+        return new Board(row,column,this.pieces,newSquares,this.getMovements(),pieceBuilder);
     }
 
 
@@ -76,8 +78,7 @@ public class Board {
     public Square getSquare(Coordinate coordinate) {
         int adjustedRow = coordinate.row() - 1;
         int adjustedColumn = coordinate.column() - 1;
-
-        int index = adjustedColumn + adjustedRow * this.row;
+        int index = this.column * adjustedRow + adjustedColumn;
         return squares[index];
     }
 
@@ -117,5 +118,9 @@ public class Board {
             }
         }
         return currentPieces;
+    }
+
+    public PieceBuilder getPieceBuilder() {
+        return pieceBuilder;
     }
 }

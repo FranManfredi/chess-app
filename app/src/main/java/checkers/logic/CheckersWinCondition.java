@@ -16,7 +16,7 @@ public class CheckersWinCondition implements WinCondition {
         if (CheckForWinByNoMorePieces.check(moveBoard, piece.getColor())) {
             return new MoveResults<>(moveBoard, true, "CheckMate");
         }
-        if (CheckForWinByNoMoreMoves.check(piece, moveBoard, board.getSquareOfPiece(piece).successfulResult().get())) {
+        if (CheckForWinByNoMoreMoves.check(piece, moveBoard)) {
             return new MoveResults<>(moveBoard, true, "CheckMate");
         } else
             return move;

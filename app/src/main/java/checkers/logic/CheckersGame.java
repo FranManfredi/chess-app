@@ -49,7 +49,7 @@ public class CheckersGame {
         blackPieces.add(pieceBuilder.clonePiece("pawn", new Coordinate(6, 8), SideColor.Black));
         blackPieces.add(pieceBuilder.clonePiece("pawn", new Coordinate(8, 8), SideColor.Black));
 
-        Board board= new Board(8, 8,blackPieces,whitePieces);
+        Board board= new Board(8, 8,blackPieces,whitePieces,pieceBuilder);
         return new Game(player1, player2,board, SideColor.Black, new CheckersWinCondition());
     }
 

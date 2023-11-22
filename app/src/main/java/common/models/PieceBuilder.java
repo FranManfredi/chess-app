@@ -19,7 +19,7 @@ public class PieceBuilder {
         this.isImportant = isImportant;
         Piece newPiece = new Piece(pieceName, coordinate, movements, eatMovements, color, isImportant, id);
         pieces.add(newPiece);
-        id ++;
+        this.id ++;
         return newPiece;
     }
 
@@ -27,7 +27,7 @@ public class PieceBuilder {
         this.movements = movements;
         this.eatMovements = movements;
         this.isImportant = isImportant;
-        id ++;
+        this.id ++;
         Piece newPiece = new Piece(pieceName, coordinate, movements, color, isImportant, id);
         pieces.add(newPiece);
         return newPiece;
@@ -38,7 +38,7 @@ public class PieceBuilder {
                 this.movements = piece.getMovements();
                 this.eatMovements = piece.getEatMovements();
                 this.isImportant = piece.isImportant();
-                id++;
+                this.id++;
                 return new Piece(pieceName, coordinate, movements, eatMovements, color, isImportant, id);
             }
         }
@@ -46,7 +46,8 @@ public class PieceBuilder {
      }
 
      public Piece createNullPiece(Coordinate coordinate){
-        return new Piece("null", coordinate, new ArrayList<>(), new ArrayList<>(), SideColor.NULL, false, 0);
+        this.id++;
+        return new Piece("null", coordinate, new ArrayList<>(), new ArrayList<>(), SideColor.NULL, false, id);
      }
 
 }
