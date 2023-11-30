@@ -1,11 +1,10 @@
 package chess.logic.moves;
 
-import common.models.Board;
-import common.models.Coordinate;
-import common.models.SideColor;
+import common.models.*;
 import common.moves.Move;
 import common.results.CheckResult;
 
+import java.util.List;
 import java.util.Objects;
 
 public class InitialVerticalMove implements Move {
@@ -14,30 +13,21 @@ public class InitialVerticalMove implements Move {
     private final boolean backwardMove;
     private final boolean limitless;
 
-    private boolean moved;
-
     public InitialVerticalMove(int rowsIncremented, boolean backwardMove) {
         limitless = false;
         this.rowsIncremented = rowsIncremented;
         this.backwardMove = backwardMove;
-        this.moved = false;
-    }
-
-    public InitialVerticalMove( boolean backwardMove){
-        limitless = true;
-        this.backwardMove = backwardMove;
-        this.moved = false;
     }
 
     @Override
     public CheckResult<Coordinate,Boolean> checkMove(Coordinate initialSquare, Coordinate finalSquare, Board board, SideColor side) {
         checkLimitless(board);
+        boolean moved = findIfMoved(board.getMovements(), initialSquare);
         if (moved){
             return new CheckResult<>(finalSquare, false,"Vertical Movement Failed");
         }
         if (backwardMove) {
             if(checkBackwardMove(initialSquare, finalSquare, board)){
-                this.moved = true;
                 return new CheckResult<>(finalSquare, true,"Vertical Movement Successful");
             } else {
                 return new CheckResult<>(finalSquare, false,"Vertical Movement Failed");
@@ -45,20 +35,27 @@ public class InitialVerticalMove implements Move {
         }
         if (Objects.equals(side, SideColor.White)) {
             if (isPathBlockedForward(initialSquare, finalSquare, board)){
-                this.moved = true;
                 return new CheckResult<>(finalSquare, true,"Vertical Movement Successful");
             } else {
                 return new CheckResult<>(finalSquare, false,"Vertical Movement Failed");
             }
         } else {
             if (isPathBlockedBackward(initialSquare, finalSquare, board)){
-                this.moved = true;
                 return new CheckResult<>(finalSquare, true,"Vertical Movement Successful");
 
             } else {
                 return new CheckResult<>(finalSquare, false,"Vertical Movement Failed");
             }
         }
+    }
+
+    private boolean findIfMoved(List<MovementHistory> movements, Coordinate initialSquare) {
+        for (int i = 0; i < movements.size(); i++) {
+            if (movements.get(i).initialSquare().equals(initialSquare) || movements.get(i).finalSquare().equals(initialSquare)){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

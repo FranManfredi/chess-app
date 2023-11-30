@@ -45,6 +45,19 @@ public class PieceBuilder {
          return null;
      }
 
+    public Piece clonePiece(String pieceName, Coordinate coordinate,SideColor color, int id){
+        for (Piece piece : pieces) {
+            if (Objects.equals(piece.getName(), pieceName)){
+                this.movements = piece.getMovements();
+                this.eatMovements = piece.getEatMovements();
+                this.isImportant = piece.isImportant();
+                this.id = id;
+                return new Piece(pieceName, coordinate, movements, eatMovements, color, isImportant, id);
+            }
+        }
+        return null;
+    }
+
      public Piece createNullPiece(Coordinate coordinate){
         this.id++;
         return new Piece("null", coordinate, new ArrayList<>(), new ArrayList<>(), SideColor.NULL, false, id);
