@@ -1,37 +1,35 @@
 package chess.logic.moves;
-import common.models.Board;
-import common.models.Coordinate;
-import common.models.SideColor;
+
+import common.models.*;
 import common.moves.Move;
 import common.results.CheckResult;
 
+import java.util.List;
 import java.util.Objects;
 
-public class VerticalMove implements Move {
+public class InitialVerticalMove implements Move {
+
     int rowsIncremented;
     private final boolean backwardMove;
     private final boolean limitless;
 
-    public VerticalMove(int rowsIncremented, boolean backwardMove) {
+    public InitialVerticalMove(int rowsIncremented, boolean backwardMove) {
         limitless = false;
         this.rowsIncremented = rowsIncremented;
-        this.backwardMove = backwardMove;
-    }
-
-    public VerticalMove( boolean backwardMove){
-        limitless = true;
         this.backwardMove = backwardMove;
     }
 
     @Override
     public CheckResult<Coordinate,Boolean> checkMove(Coordinate initialSquare, Coordinate finalSquare, Board board, SideColor side) {
         checkLimitless(board);
-        if (backwardMove) {
-            if(checkBackwardMove(initialSquare, finalSquare, board)){
-                return new CheckResult<>(finalSquare, true,"Vertical Movement Successful");
-            } else {
-                return new CheckResult<>(finalSquare, false,"Vertical Movement Failed");
-            }
+        boolean moved = findIfMoved(board.getMovements(), initialSquare);
+        if (moved){
+            return new CheckResult<>(finalSquare, false,"Vertical Movement Failed");
+        }
+        if (backwardMove) if (checkBackwardMove(initialSquare, finalSquare, board)) {
+            return new CheckResult<>(finalSquare, true, "Vertical Movement Successful");
+        } else {
+            return new CheckResult<>(finalSquare, false, "Vertical Movement Failed");
         }
         if (Objects.equals(side, SideColor.White)) {
             if (isPathBlockedForward(initialSquare, finalSquare, board)){
@@ -42,11 +40,22 @@ public class VerticalMove implements Move {
         } else {
             if (isPathBlockedBackward(initialSquare, finalSquare, board)){
                 return new CheckResult<>(finalSquare, true,"Vertical Movement Successful");
+
             } else {
                 return new CheckResult<>(finalSquare, false,"Vertical Movement Failed");
             }
         }
     }
+
+    private boolean findIfMoved(List<MovementHistory> movements, Coordinate initialSquare) {
+        for (MovementHistory movement : movements) {
+            if (movement.initialSquare().equals(initialSquare) || movement.finalSquare().equals(initialSquare)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private Boolean checkBackwardMove(Coordinate initialSquare, Coordinate finalSquare, Board board) {
         if (finalSquare.row() > initialSquare.row()) {
             return isPathBlockedForward(initialSquare, finalSquare, board);
@@ -85,5 +94,6 @@ public class VerticalMove implements Move {
             rowsIncremented = board.getRows();
         }
     }
+
 
 }

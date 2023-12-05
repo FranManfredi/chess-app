@@ -16,21 +16,15 @@ public class JumpMove implements Move {
     }
     @Override
     public CheckResult<Coordinate,Boolean> checkMove(Coordinate initialSquare, Coordinate finalSquare, Board board, SideColor color) {
-        if (finalSquare.column() == initialSquare.column() + columnIncremented && finalSquare.row() == initialSquare.row() + rowsIncremented){
+        if (isMovingCorrectAmmount(initialSquare, finalSquare)){
             return new CheckResult<>(finalSquare, true,"Jump Movement Successful");
         } else {
             return new CheckResult<>(finalSquare, false,"Jump Movement Failed");
         }
     }
 
-    @Override
-    public int getRowsIncremented() {
-        return rowsIncremented;
-    }
-
-    @Override
-    public int getColumnIncremented() {
-        return columnIncremented;
+    private boolean isMovingCorrectAmmount(Coordinate initialSquare, Coordinate finalSquare) {
+        return finalSquare.column() == initialSquare.column() + columnIncremented && finalSquare.row() == initialSquare.row() + rowsIncremented;
     }
 
 }

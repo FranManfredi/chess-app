@@ -1,6 +1,6 @@
 package edu.austral.dissis.chess
 
-import common.client_server.client.GameClient
+import common.clientAndServer.client.GameClient
 import edu.austral.dissis.chess.gui.CachedImageResolver
 import edu.austral.dissis.chess.gui.DefaultImageResolver
 import edu.austral.dissis.chess.gui.GameView
