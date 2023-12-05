@@ -20,8 +20,8 @@ public class Game {
 
 
     public Game(Board board, SideColor startingPlayer, WinCondition winCondition, LegalMove legalMove) {
-        this.player1 = new Player();
-        this.player2 = new Player();
+        this.player1 = new Player(SideColor.White);
+        this.player2 = new Player(SideColor.Black);
         this.boardStack.push(board);
         this.turnHandler = new TurnHandler(startingPlayer);
         this.winCondition = winCondition;

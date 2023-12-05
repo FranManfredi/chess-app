@@ -24,7 +24,7 @@ fun main() {
     launch(ChessGameApplication::class.java)
 }
 class ChessGameApplication : Application() {
-    private val game = ClassicGame();
+    private val game = CheckersGame();
     private val gameEngine = DefaultGameEngine(game.CreateGame())
     private val imageResolver = CachedImageResolver(DefaultImageResolver())
     private val root = GameView(imageResolver)
