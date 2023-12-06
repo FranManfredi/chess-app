@@ -1,7 +1,8 @@
 package chess.logic.classicGame;
 
 import chess.logic.moves.InitialVerticalMove;
-import common.logic.promotionCondition;
+import common.logic.PromotionAndCastlingCondition;
+import common.logic.PromotionCondition;
 import common.models.*;
 import common.moves.Move;
 import common.moves.DiagonalMove;
@@ -31,7 +32,7 @@ import java.util.List;
             CreateBlackQueenAndKing(blackPieces, pieceFactory);
 
             Board board = new Board(8, 8, blackPieces, whitePieces, pieceFactory);
-            return new Game(board,SideColor.White, new ClassicWinCondition(), new ChessLegalMove(), new promotionCondition());
+            return new Game(board,SideColor.White, new ClassicWinCondition(), new ChessLegalMove(), new PromotionAndCastlingCondition());
         }
 
         private void CreateBlackQueenAndKing(List<PieceCoord> blackPieces, PieceFactory pieceFactory) {

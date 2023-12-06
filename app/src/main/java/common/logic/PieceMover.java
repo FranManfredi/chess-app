@@ -12,16 +12,23 @@ import java.util.Optional;
 public class PieceMover {
 
     public MoveResult<Board, Boolean, SideColor> check(Board board, Coordinate initial, Coordinate toSquare,
-                                                       List<Move> movements, Piece pieceMoving, Piece pieceEaten, SpecialCondition specialConditions) {
+                                                       List<Move> movements, Piece pieceMoving, Piece pieceEaten,
+                                                       SpecialCondition specialConditions) {
         for (Move move : movements) {
             CheckResult<Coordinate, Boolean> checkResult = move.checkMove(initial, toSquare, board, pieceMoving.getColor());
-            ///hacer un chequeo si usas el eatMovements que haya algo para comer
-            if (checkResult.outputResult()) {
+            if (checkIfEatPawn( pieceMoving, toSquare, board, move)) {
+                return new MoveResult<>(board, true, pieceMoving.getColor(), "Piece not moved");
+            }
+            else if (checkResult.outputResult()) {
                 return processSuccessfulMove(board, initial, checkResult, pieceMoving, pieceEaten, specialConditions);
             }
         }
 
         return new MoveResult<>(board, true, pieceMoving.getColor(), "Piece not moved");
+    }
+
+    private boolean checkIfEatPawn(Piece pieceMoving, Coordinate toSquare, Board board, Move move) {
+        return pieceMoving.getEatMovements().contains(move) && !board.checkForPieceInSquare(toSquare) && pieceMoving.getName().equals("pawn");
     }
 
     private MoveResult<Board, Boolean, SideColor> processSuccessfulMove(Board board, Coordinate initial,

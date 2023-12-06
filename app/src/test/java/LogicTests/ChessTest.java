@@ -19,7 +19,7 @@ public class ChessTest {
         game.movePiece(new Coordinate(6, 2), new Coordinate(6, 3));
         game.movePiece(new Coordinate(5, 7), new Coordinate(5, 6));
         game.movePiece(new Coordinate(7, 2), new Coordinate(7, 4));
-        MoveResult<Board, Boolean, SideColor> g = game.movePiece(new Coordinate(4, 8), new Coordinate(8, 4));
+        MoveResult<Game, Boolean, SideColor> g = game.movePiece(new Coordinate(4, 8), new Coordinate(8, 4));
 
         assertEquals("CheckMate", g.message());
     }
@@ -27,7 +27,7 @@ public class ChessTest {
     void TestIfPieceCanMoveOutsideBoard() {
         ClassicGame cg = new ClassicGame();
         Game game = cg.CreateGame();
-        MoveResult<Board, Boolean,SideColor> g = game.movePiece(new Coordinate(1, 2), new Coordinate(1, 9));
+        MoveResult<Game, Boolean, SideColor> g = game.movePiece(new Coordinate(1, 2), new Coordinate(1, 9));
         assertEquals("Common Rule unfollowed", g.message());
     }
 
@@ -35,7 +35,7 @@ public class ChessTest {
     void TestIfPieceCanMoveToSameSquare() {
         ClassicGame cg = new ClassicGame();
         Game game = cg.CreateGame();
-        MoveResult<Board, Boolean,SideColor> g = game.movePiece(new Coordinate(1, 2), new Coordinate(1, 2));
+        MoveResult<Game, Boolean, SideColor> g = game.movePiece(new Coordinate(1, 2), new Coordinate(1, 2));
         assertEquals("Common Rule unfollowed", g.message());
     }
 

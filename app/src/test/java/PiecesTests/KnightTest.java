@@ -1,9 +1,12 @@
 package PiecesTests;
+import checkers.logic.CheckersLegalMove;
+import checkers.logic.CheckersWinCondition;
 import chess.logic.classicGame.ChessLegalMove;
 import chess.logic.classicGame.ClassicWinCondition;
 import chess.logic.moves.HorizontalMove;
 import chess.logic.moves.JumpMove;
 import chess.logic.moves.VerticalMove;
+import common.logic.PromotionAndCastlingCondition;
 import common.models.*;
 import common.moves.DiagonalMove;
 import common.moves.Move;
@@ -22,8 +25,8 @@ public class KnightTest {
 
     @BeforeEach
     public void setup() {
-        List<Piece> blackPieces = new ArrayList<>();
-        List<Piece> whitePieces = new ArrayList<>();
+        List<PieceCoord> blackPieces = new ArrayList<>();
+        List<PieceCoord> whitePieces = new ArrayList<>();
         PieceFactory pieceFactory = new PieceFactory();
         List<Move> knightMovements = new ArrayList<>();
         knightMovements.add(new JumpMove(2, 1));
@@ -35,32 +38,33 @@ public class KnightTest {
         knightMovements.add(new JumpMove(-1, 2));
         knightMovements.add(new JumpMove(-1, -2));
 
-        whitePieces.add(pieceFactory.createPiece("knight", new Coordinate(4, 4), knightMovements, false, SideColor.White));
-        whitePieces.add(pieceFactory.clonePiece("knight", new Coordinate(4, 5), SideColor.White));
-        whitePieces.add(pieceFactory.clonePiece("knight", new Coordinate(5, 5), SideColor.White));
-        blackPieces.add(pieceFactory.clonePiece("knight", new Coordinate(6, 6), SideColor.Black));
+        whitePieces.add(new PieceCoord(new Coordinate(4, 4),pieceFactory.createPiece("knight", knightMovements, false, SideColor.White)));
+        whitePieces.add(new PieceCoord(new Coordinate(4, 5),pieceFactory.clonePiece("knight", SideColor.White)));
+        whitePieces.add(new PieceCoord(new Coordinate(5, 5),pieceFactory.clonePiece("knight", SideColor.White)));
+        blackPieces.add(new PieceCoord(new Coordinate(6, 6),pieceFactory.clonePiece("knight", SideColor.Black)));
 
         List<Move> kingMovements = new ArrayList<>();
         kingMovements.add(new VerticalMove(1, true));
         kingMovements.add(new HorizontalMove(1));
         kingMovements.add(new DiagonalMove(1, 1,true));
         kingMovements.add(new DiagonalMove(1, -1,true));
-        whitePieces.add(pieceFactory.createPiece("king", new Coordinate(5, 1), kingMovements, true, SideColor.White));
-        blackPieces.add(pieceFactory.clonePiece("king", new Coordinate(5, 8), SideColor.Black));
+        whitePieces.add(new PieceCoord(new Coordinate(5, 1),pieceFactory.createPiece("king", kingMovements, true, SideColor.White)));
+        blackPieces.add(new PieceCoord(new Coordinate(5, 8),pieceFactory.clonePiece("king", SideColor.Black)));
+
 
         Board board = new Board(8,8,blackPieces,whitePieces,pieceFactory);
-        game = new Game(new Player(), new Player(), board, SideColor.White,new ClassicWinCondition(), new ChessLegalMove());
+        game = new Game(board, SideColor.Black, new CheckersWinCondition(), new CheckersLegalMove(), new PromotionAndCastlingCondition());
     }
 
     @Test
     void testValidJumpMove() {
-        MoveResult<Board, Boolean,SideColor> result = game.movePiece(new Coordinate(4, 4), new Coordinate(6, 5));
+        MoveResult<Game, Boolean, SideColor> result = game.movePiece(new Coordinate(4, 4), new Coordinate(6, 5));
         assertEquals("Piece Moved", result.message());
     }
 
     @Test
     void testInvalidJumpMove() {
-        MoveResult<Board, Boolean,SideColor> result = game.movePiece(new Coordinate(4, 4), new Coordinate(6, 6));
+        MoveResult<Game, Boolean, SideColor> result = game.movePiece(new Coordinate(4, 4), new Coordinate(6, 6));
         assertEquals("Piece not moved", result.message());
     }
 

@@ -117,7 +117,7 @@ public class Game {
 
     private boolean notFollowsCommonRule(Piece piece, Coordinate toSquare, Board board) {
         CommonRule commonRule = new CommonRule();
-        return !commonRule.checkRule(board, piece, toSquare) || specialCondition.overrideCommonRule(board, piece, toSquare);
+        return specialCondition.overrideCommonRule(board, piece, toSquare) || !commonRule.checkRule(board, piece, toSquare);
     }
 
     public TurnHandler getTurnHandler() {

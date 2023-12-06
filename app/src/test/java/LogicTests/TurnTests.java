@@ -16,7 +16,7 @@ public class TurnTests {
         ClassicGame cg = new ClassicGame();
         Game game = cg.CreateGame();
         game.movePiece(new Coordinate(6, 2), new Coordinate(6, 3));
-        MoveResult<Board, Boolean, SideColor> move = game.movePiece(new Coordinate(5, 2), new Coordinate(5, 3));
+        MoveResult<Game, Boolean, SideColor> move = game.movePiece(new Coordinate(5, 2), new Coordinate(5, 3));
         Assertions.assertEquals("Piece not same color as player", move.message());
     }
 }

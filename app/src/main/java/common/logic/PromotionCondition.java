@@ -4,7 +4,7 @@ import common.models.Board;
 import common.models.Coordinate;
 import common.models.Piece;
 
-public class promotionCondition implements SpecialCondition{
+public class PromotionCondition implements SpecialCondition{
 
     @Override
     public Board getBoard(Board board, Piece piece, Coordinate toSquare) {

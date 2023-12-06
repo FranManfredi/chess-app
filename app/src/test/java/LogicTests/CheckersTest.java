@@ -3,6 +3,7 @@ package LogicTests;
 import checkers.logic.CheckersEatMove;
 import checkers.logic.CheckersLegalMove;
 import checkers.logic.CheckersWinCondition;
+import common.logic.PromotionCondition;
 import common.models.*;
 import common.moves.DiagonalMove;
 import common.moves.Move;
@@ -16,8 +17,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CheckersTest {
-    List<Piece> blackPieces = new ArrayList<>();
-    List<Piece> whitePieces = new ArrayList<>();
+    List<PieceCoord> blackPieces = new ArrayList<>();
+    List<PieceCoord> whitePieces = new ArrayList<>();
     PieceFactory pieceFactory = new PieceFactory();
     List<Move> pawnMovements = new ArrayList<>();
     List<Move> queenMovements = new ArrayList<>();
@@ -35,31 +36,32 @@ public class CheckersTest {
 
     @Test
     void TestCheckWinByNoMorePiece() {
-        whitePieces.add(pieceFactory.createPiece("pawn", new Coordinate(3, 3), pawnMovements, pawnEatMovements, false, SideColor.White));
-        blackPieces.add(pieceFactory.clonePiece("pawn", new Coordinate(4, 4), SideColor.Black));
+        whitePieces.add(new PieceCoord(new Coordinate(3, 3),pieceFactory.createPiece("pawn", pawnMovements, pawnEatMovements, false, SideColor.White)));
+        blackPieces.add(new PieceCoord( new Coordinate(4, 4),pieceFactory.clonePiece("pawn", SideColor.Black)));
 
         Board board = new Board(8,8,blackPieces,whitePieces,pieceFactory);
-        Game game = new Game(new Player(), new Player(), board, SideColor.Black,new CheckersWinCondition(), new CheckersLegalMove());
+        Game game = new Game(board, SideColor.Black, new CheckersWinCondition(), new CheckersLegalMove(), new PromotionCondition());
 
-        MoveResult<Board,Boolean,SideColor> result = game.movePiece(new Coordinate(4, 4), new Coordinate(3, 3));
+        MoveResult<Game, Boolean, SideColor> result = game.movePiece(new Coordinate(4, 4), new Coordinate(3, 3));
         assertEquals("CheckMate", result.message());
     }
 
     @Test
     void TestCheckWinByNoMoreMoves() {
-        whitePieces.add(pieceFactory.createPiece("queen", new Coordinate(1, 1), queenMovements, false, SideColor.White));
+        whitePieces.add(new PieceCoord( new Coordinate(1, 1),pieceFactory.createPiece("queen", queenMovements, false, SideColor.White)));
 
-        blackPieces.add(pieceFactory.createPiece("pawn", new Coordinate(7, 8), pawnMovements, pawnEatMovements, false, SideColor.Black));
-        whitePieces.add(pieceFactory.clonePiece("pawn", new Coordinate(6, 7), SideColor.White));
-        whitePieces.add(pieceFactory.clonePiece("pawn", new Coordinate(7, 6), SideColor.White));
-        whitePieces.add(pieceFactory.clonePiece("pawn", new Coordinate(5, 6), SideColor.White));
-        whitePieces.add(pieceFactory.clonePiece("pawn", new Coordinate(6, 5), SideColor.White));
+        blackPieces.add(new PieceCoord( new Coordinate(7, 8),pieceFactory.createPiece("pawn", pawnMovements, pawnEatMovements, false, SideColor.Black)));
+
+        whitePieces.add(new PieceCoord( new Coordinate(6, 7),pieceFactory.clonePiece("pawn", SideColor.White)));
+        whitePieces.add(new PieceCoord( new Coordinate(7, 6),pieceFactory.clonePiece("pawn", SideColor.White)));
+        whitePieces.add(new PieceCoord( new Coordinate(5, 6),pieceFactory.clonePiece("pawn", SideColor.White)));
+        whitePieces.add(new PieceCoord( new Coordinate(6, 5),pieceFactory.clonePiece("pawn", SideColor.White)));
 
         Board board = new Board(8, 8, blackPieces, whitePieces, pieceFactory);
-        Game game = new Game(new Player(), new Player(), board, SideColor.Black, new CheckersWinCondition(), new CheckersLegalMove());
+        Game game = new Game(board, SideColor.Black, new CheckersWinCondition(), new CheckersLegalMove(), new PromotionCondition());
 
         game.movePiece(new Coordinate(7, 8), new Coordinate(8, 7));
-        MoveResult<Board, Boolean, SideColor> result = game.movePiece(new Coordinate(6, 7), new Coordinate(7, 8));
+        MoveResult<Game, Boolean, SideColor> result = game.movePiece(new Coordinate(6, 7), new Coordinate(7, 8));
 
         assertEquals("CheckMate", result.message());
     }

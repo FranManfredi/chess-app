@@ -6,7 +6,7 @@ import chess.logic.moves.HorizontalMove;
 import chess.logic.moves.InitialVerticalMove;
 import chess.logic.moves.JumpMove;
 import chess.logic.moves.VerticalMove;
-import common.logic.promotionCondition;
+import common.logic.PromotionCondition;
 import common.models.*;
 import common.moves.DiagonalMove;
 import common.moves.Move;
@@ -38,7 +38,7 @@ public class CapablancaChess {
 
 
         Board board = new Board(8, 10, blackPieces, whitePieces, pieceFactory);
-        return new Game(board,SideColor.White, new ClassicWinCondition(), new ChessLegalMove(), new promotionCondition());
+        return new Game(board,SideColor.White, new ClassicWinCondition(), new ChessLegalMove(), new PromotionCondition());
     }
 
     private void createBlackKingAndQueen(List<PieceCoord> blackPieces, PieceFactory pieceFactory) {
