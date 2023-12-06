@@ -104,19 +104,11 @@ public class Game {
             return new MoveResult<>(board, true, turnHandler.getTurn(), "Piece not the correct color");
         }
 
-        if (checkForSpecialConditions(specialCondition)) {
-
-        }
-        else if (notFollowsCommonRule(piece, toSquare, board)) { // Check if the piece can move to the toSquare
-            // Piece cannot move to the toSquare
+        if (notFollowsCommonRule(piece, toSquare, board)) { // Check if the piece can move to the toSquare
             return new MoveResult<>(board, true, turnHandler.getTurn(), "Piece cannot move to the Square");
         }
 
         return legalMove.movePiece(piece, toSquare, board, initial, winCondition, specialCondition);
-    }
-
-    private boolean checkForSpecialConditions(SpecialCondition specialCondition) {
-        return true;
     }
 
     public Board getBoard() {
@@ -125,7 +117,7 @@ public class Game {
 
     private boolean notFollowsCommonRule(Piece piece, Coordinate toSquare, Board board) {
         CommonRule commonRule = new CommonRule();
-        return !commonRule.checkRule(board, piece, toSquare);
+        return !commonRule.checkRule(board, piece, toSquare) || specialCondition.overrideCommonRule(board, piece, toSquare);
     }
 
     public TurnHandler getTurnHandler() {

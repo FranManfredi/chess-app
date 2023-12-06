@@ -8,5 +8,6 @@ import common.results.MoveResult;
 
 public interface SpecialCondition {
     Board getBoard(Board board, Piece piece, Coordinate toSquare);
-    Boolean checkCondition(Board board, Piece piece, Coordinate toSquare);
+    boolean checkCondition(Board board, Piece piece, Coordinate toSquare);
+    boolean overrideCommonRule(Board board, Piece piece, Coordinate toSquare);
 }

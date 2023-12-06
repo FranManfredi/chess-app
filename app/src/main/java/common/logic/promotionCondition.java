@@ -12,8 +12,13 @@ public class promotionCondition implements SpecialCondition{
     }
 
     @Override
-    public Boolean checkCondition(Board board, Piece piece, Coordinate toSquare) {
+    public boolean checkCondition(Board board, Piece piece, Coordinate toSquare) {
         return pawnReachedEnd(piece, toSquare, board);
+    }
+
+    @Override
+    public boolean overrideCommonRule(Board board, Piece piece, Coordinate toSquare) {
+        return false;
     }
 
     private boolean pawnReachedEnd(Piece pieceMoving, Coordinate coordinate, Board board) {
