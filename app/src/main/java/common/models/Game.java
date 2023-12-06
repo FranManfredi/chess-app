@@ -13,7 +13,7 @@ import java.util.Stack;
 public class Game {
     private final Player player1;
     private final Player player2;
-    private final Stack<Board> boardStack = new Stack<>();
+    private BoardStates boardStack = new BoardStates();
     private TurnHandler turnHandler;
     private final WinCondition winCondition;
     private final LegalMove legalMove;
@@ -22,7 +22,7 @@ public class Game {
     public Game(Board board, SideColor startingPlayer, WinCondition winCondition, LegalMove legalMove) {
         this.player1 = new Player(SideColor.White);
         this.player2 = new Player(SideColor.Black);
-        this.boardStack.push(board);
+        boardStack = boardStack.push(board);
         this.turnHandler = new TurnHandler(startingPlayer);
         this.winCondition = winCondition;
         this.legalMove = legalMove;
@@ -52,7 +52,7 @@ public class Game {
                 return new MoveResult<>(boardStack.peek(), true, turnHandler.getTurn(), res.message());
             }
             turnHandler = turnHandler.setTurn(res.nextTurn());
-            boardStack.push(res.successfulResult());
+            boardStack = boardStack.push(res.successfulResult());
             return new MoveResult<>(boardStack.peek(), false,res.nextTurn(), res.message());
         }
         else{
