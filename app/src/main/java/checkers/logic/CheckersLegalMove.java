@@ -1,9 +1,6 @@
 package checkers.logic;
 
-import common.logic.LegalMove;
-import common.logic.PieceMover;
-import common.logic.PossibleMovements;
-import common.logic.WinCondition;
+import common.logic.*;
 import common.models.*;
 import common.moves.Move;
 import common.results.MoveResult;
@@ -16,15 +13,17 @@ public class CheckersLegalMove implements LegalMove {
     private final PossibleMovements possibleMovements = new PossibleMovements();
 
     @Override
-    public MoveResult<Board, Boolean, SideColor> movePiece(Piece piece, Coordinate toSquare, Board board, Coordinate initial, List<Move> moves, WinCondition winCondition) {
-        return loopUntilCantEat(piece, toSquare, board, initial, moves, winCondition);
+    public MoveResult<Board, Boolean, SideColor> movePiece(Piece piece, Coordinate toSquare, Board board, Coordinate initial, WinCondition winCondition, SpecialCondition specialConditions) {
+        return loopUntilCantEat(piece, toSquare, board, initial, winCondition, specialConditions);
     }
 
-    private MoveResult<Board, Boolean, SideColor> loopUntilCantEat(Piece piece, Coordinate toSquare, Board board, Coordinate initial, List<Move> moves, WinCondition winCondition) {
+    private MoveResult<Board, Boolean, SideColor> loopUntilCantEat(Piece piece, Coordinate toSquare, Board board, Coordinate initial, WinCondition winCondition, SpecialCondition specialConditions) {
         if (canEatRule(piece, board, toSquare)) {
             return new MoveResult<>(board, true,piece.getColor(), "always eat Rule unfollowed");
         }
-        MoveResult<Board, Boolean, SideColor> move = pieceMover.check(board, initial, toSquare, moves, piece, board.getPiece(toSquare).successfulResult().get());
+        List<Move> movements = piece.getMovements();
+        movements.addAll(piece.getEatMovements());
+        MoveResult<Board, Boolean, SideColor> move = pieceMover.check(board, initial, toSquare, movements, piece, board.getPiece(toSquare).successfulResult().get(), specialConditions);
         if (move.errorResult())
             return move;
         else {

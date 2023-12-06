@@ -1,5 +1,7 @@
 package checkers.logic;
 
+
+import common.logic.promotionCondition;
 import common.models.*;
 import common.moves.DiagonalMove;
 import common.moves.Move;
@@ -20,7 +22,7 @@ public class CheckersGame {
 
 
         Board board= new Board(8, 8,blackPieces,whitePieces, pieceFactory);
-        return new Game(board, SideColor.Black, new CheckersWinCondition(), new CheckersLegalMove());
+        return new Game(board, SideColor.Black, new CheckersWinCondition(), new CheckersLegalMove(), new promotionCondition());
     }
 
     private void createBlackPawns(List<PieceCoord> blackPieces, PieceFactory pieceFactory) {

@@ -10,5 +10,5 @@ import common.results.MoveResult;
 import java.util.List;
 
 public interface LegalMove {
-    MoveResult<Board,Boolean, SideColor> movePiece(Piece piece, Coordinate toSquare, Board board, Coordinate initial, List<Move> moves, WinCondition winCondition);
+    MoveResult<Board,Boolean, SideColor> movePiece(Piece piece, Coordinate toSquare, Board board, Coordinate initial, WinCondition winCondition, SpecialCondition specialConditions);
 }

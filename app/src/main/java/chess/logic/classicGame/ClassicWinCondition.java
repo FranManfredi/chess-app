@@ -14,12 +14,12 @@ public class ClassicWinCondition implements WinCondition {
     public MoveResult<Board,Boolean, SideColor> checkWin(Board board, Piece piece, MoveResult<Board,Boolean,SideColor> move, Coordinate toSquare) {
         Board moveBoard = move.successfulResult();
         if (checkForCheckMate.check(moveBoard,piece.getColor(),moveBoard.getPieces()))
-            return new MoveResult<>(moveBoard, true,getOpositeColor(piece.getColor()), "CheckMate");
+            return new MoveResult<>(moveBoard, true, getOppositeColor(piece.getColor()), "CheckMate");
         else
             return move;
     }
 
-    private SideColor getOpositeColor(SideColor color) {
+    private SideColor getOppositeColor(SideColor color) {
         if (color == SideColor.White)
             return SideColor.Black;
         if (color == SideColor.Black)

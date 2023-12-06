@@ -12,12 +12,12 @@ import java.util.Optional;
 public class PieceMover {
 
     public MoveResult<Board, Boolean, SideColor> check(Board board, Coordinate initial, Coordinate toSquare,
-                                                       List<Move> movements, Piece pieceMoving, Piece pieceEaten) {
+                                                       List<Move> movements, Piece pieceMoving, Piece pieceEaten, SpecialCondition specialConditions) {
         for (Move move : movements) {
             CheckResult<Coordinate, Boolean> checkResult = move.checkMove(initial, toSquare, board, pieceMoving.getColor());
-
+            ///hacer un chequeo si usas el eatMovements que haya algo para comer
             if (checkResult.outputResult()) {
-                return processSuccessfulMove(board, initial, checkResult, pieceMoving, pieceEaten);
+                return processSuccessfulMove(board, initial, checkResult, pieceMoving, pieceEaten, specialConditions);
             }
         }
 
@@ -26,14 +26,14 @@ public class PieceMover {
 
     private MoveResult<Board, Boolean, SideColor> processSuccessfulMove(Board board, Coordinate initial,
                                                                         CheckResult<Coordinate, Boolean> checkResult,
-                                                                        Piece pieceMoving, Piece pieceEaten) {
+                                                                        Piece pieceMoving, Piece pieceEaten, SpecialCondition specialConditions) {
         Optional<Coordinate> coordinateEaten = board.getCoordOfPiece(pieceEaten).successfulResult();
         Board newBoard = board.positionPiece(board.getPieceBuilder().createNullPiece(), coordinateEaten.get());
         newBoard = newBoard.positionPiece(pieceMoving, checkResult.successfulResult());
         newBoard = newBoard.positionPiece(board.getPieceBuilder().createNullPiece(), initial);
 
-        if (pawnReachedEnd(pieceMoving, checkResult.successfulResult(), board)) {
-            newBoard = newBoard.positionPiece(board.getPieceBuilder().promotePawn(pieceMoving.getColor(), pieceMoving.getId()), checkResult.successfulResult());
+        if (specialConditions.checkCondition(board, pieceMoving, checkResult.successfulResult())) {
+            newBoard = specialConditions.getBoard(newBoard, pieceMoving, checkResult.successfulResult());
         }
 
         List<MovementHistory> newMovement = new ArrayList<>(board.getMovements());
@@ -48,11 +48,6 @@ public class PieceMover {
 
     private SideColor checkOppositeColor(Piece pieceMoving) {
         // Determine the opposite color based on the current piece's color
-        return (pieceMoving.getColor().equals(SideColor.Black)) ? SideColor.White : SideColor.Black;
-    }
-
-    private boolean pawnReachedEnd(Piece pieceMoving, Coordinate coordinate, Board board) {
-        // Check if a pawn reached the end of the board
-        return pieceMoving.getName().equals("pawn") && (coordinate.row() == 1 || coordinate.row() == board.getRows());
+        return pieceMoving.getColor().equals(SideColor.Black) ? SideColor.White : SideColor.Black;
     }
 }
