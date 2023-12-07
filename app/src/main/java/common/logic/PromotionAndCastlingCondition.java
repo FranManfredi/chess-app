@@ -1,9 +1,10 @@
 package common.logic;
 
-import common.models.Board;
-import common.models.Coordinate;
-import common.models.Piece;
+import common.models.*;
 import common.results.GetResult;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class PromotionAndCastlingCondition implements SpecialCondition{
     @Override
@@ -11,15 +12,56 @@ public class PromotionAndCastlingCondition implements SpecialCondition{
         if (pawnReachedEnd(piece, toSquare, board)) {
             return board.positionPiece(board.getPieceBuilder().promotePawn(piece.getColor(), piece.getId()), toSquare);
         }
-        return null;
+        Coordinate kingCoordinate = board.getCoordOfPiece(piece).successfulResult().get();
+        Piece rook = board.getPiece(toSquare).successfulResult().get();
+
+        if (kingCoordinate.column() < toSquare.column()) {
+            return castleRight(board, piece, kingCoordinate, rook);
+        } else {
+            return castleLeft(board, piece, kingCoordinate, rook);
+        }
     }
+
+    private Board castleLeft(Board board, Piece piece, Coordinate kingCoordinate, Piece rook) {
+        Board newBoard = board.positionPiece(piece, new Coordinate(kingCoordinate.column() - 2, kingCoordinate.row()));
+        newBoard = newBoard.positionPiece(board.getPieceBuilder().createNullPiece(), board.getCoordOfPiece(piece).successfulResult().get());
+        newBoard = newBoard.positionPiece(board.getPieceBuilder().createNullPiece(), board.getCoordOfPiece(rook).successfulResult().get());
+        newBoard = newBoard.positionPiece(rook, new Coordinate(kingCoordinate.column() - 1, kingCoordinate.row()));
+        return newBoard;
+    }
+    private Board castleRight(Board board, Piece piece, Coordinate kingCoordinate, Piece rook) {
+        Board newBoard = board.positionPiece(piece, new Coordinate(kingCoordinate.column() + 2, kingCoordinate.row()));
+        newBoard = newBoard.positionPiece(board.getPieceBuilder().createNullPiece(), board.getCoordOfPiece(piece).successfulResult().get());
+        newBoard = newBoard.positionPiece(rook, new Coordinate(kingCoordinate.column() + 1, kingCoordinate.row()));
+        newBoard = newBoard.positionPiece(board.getPieceBuilder().createNullPiece(), board.getCoordOfPiece(rook).successfulResult().get());
+        return newBoard;
+    }
+
     @Override
     public boolean checkCondition(Board board, Piece piece, Coordinate toSquare) {
         if (pawnReachedEnd(piece, toSquare, board)) {
             return true;
         }
         else if (piece.getName().equals("king") && board.getPiece(toSquare).successfulResult().get().getName().equals("rook")) {
+            Piece rook = board.getPiece(toSquare).successfulResult().get();
+            if (kingOrRookMoved(board, piece, rook)) {
+                return false;
+            }
             return isPathClear(board, piece, toSquare);
+        }
+        return false;
+    }
+
+    private boolean kingOrRookMoved(Board board, Piece king, Piece rook) {
+        List<MovementHistory> movements = board.getMovements();
+        Coordinate rookCoordinate = board.getCoordOfPiece(rook).successfulResult().get();
+        for (MovementHistory movement : movements) {
+            if (movement.piece().getName().equals("king") && movement.piece().getId() == king.getId()) {
+                return true;
+            }
+            if (movement.initialSquare().equals(rookCoordinate) || movement.finalSquare().equals(rookCoordinate)) {
+                return true;
+            }
         }
         return false;
     }
@@ -63,6 +105,9 @@ public class PromotionAndCastlingCondition implements SpecialCondition{
             return false;
         }
         else if (piece.getName().equals("king") && board.getPiece(toSquare).successfulResult().get().getName().equals("rook")) {
+            if (kingOrRookMoved(board, piece, board.getPiece(toSquare).successfulResult().get())) {
+                return false;
+            }
             return isPathClear(board, piece, toSquare);
         }
         return false;

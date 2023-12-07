@@ -21,14 +21,14 @@ import java.util.List;
 
             createWhitePawns(whitePieces, pieceFactory,8);
             createWhiteRooks(whitePieces, pieceFactory);
-            createWhiteBishops(whitePieces, pieceFactory);
-            createWhiteKnight(whitePieces, pieceFactory);
+//            createWhiteBishops(whitePieces, pieceFactory);
+//            createWhiteKnight(whitePieces, pieceFactory);
             createWhiteKingAndQueen(whitePieces, pieceFactory);
 
             createBlackPawns(blackPieces, pieceFactory,8);
             createBlackRooks(blackPieces, pieceFactory);
-            createBlackBishops(blackPieces, pieceFactory);
-            createBlackKnight(blackPieces, pieceFactory);
+//            createBlackBishops(blackPieces, pieceFactory);
+//            createBlackKnight(blackPieces, pieceFactory);
             CreateBlackQueenAndKing(blackPieces, pieceFactory);
 
             Board board = new Board(8, 8, blackPieces, whitePieces, pieceFactory);

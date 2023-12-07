@@ -14,6 +14,9 @@ public class PieceMover {
     public MoveResult<Board, Boolean, SideColor> check(Board board, Coordinate initial, Coordinate toSquare,
                                                        List<Move> movements, Piece pieceMoving, Piece pieceEaten,
                                                        SpecialCondition specialConditions) {
+        if (specialConditions.overrideCommonRule(board, pieceMoving, toSquare)) {
+            return processSpecialMove(board, initial, pieceMoving, specialConditions, toSquare);
+        }
         for (Move move : movements) {
             CheckResult<Coordinate, Boolean> checkResult = move.checkMove(initial, toSquare, board, pieceMoving.getColor());
             if (checkIfEatPawn( pieceMoving, toSquare, board, move)) {
@@ -25,6 +28,18 @@ public class PieceMover {
         }
 
         return new MoveResult<>(board, true, pieceMoving.getColor(), "Piece not moved");
+    }
+
+    private MoveResult<Board, Boolean, SideColor> processSpecialMove(Board board, Coordinate initial, Piece pieceMoving, SpecialCondition specialConditions, Coordinate toSquare) {
+        Board newBoard = specialConditions.getBoard(board, pieceMoving, toSquare);
+        List<MovementHistory> newMovement = new ArrayList<>(board.getMovements());
+        newMovement.add(new MovementHistory(initial, board.getCoordOfPiece(pieceMoving).successfulResult().get(), pieceMoving));
+
+
+        Board updatedBoard = new Board(board.getRows(), board.getColumns(), newBoard.getPieces(),
+                newBoard.getSquares(), newMovement, board.getPieceBuilder());
+
+        return new MoveResult<>(updatedBoard, false, checkOppositeColor(pieceMoving), "Piece Moved");
     }
 
     private boolean checkIfEatPawn(Piece pieceMoving, Coordinate toSquare, Board board, Move move) {
