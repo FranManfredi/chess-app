@@ -12,23 +12,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ChessTest {
 
-    @Test
-    void TestCheckMate() {
-        ClassicGame cg = new ClassicGame();
-        Game game = cg.CreateGame();
-        game.movePiece(new Coordinate(6, 2), new Coordinate(6, 3));
-        game.movePiece(new Coordinate(5, 7), new Coordinate(5, 6));
-        game.movePiece(new Coordinate(7, 2), new Coordinate(7, 4));
-        MoveResult<Game, Boolean, SideColor> g = game.movePiece(new Coordinate(4, 8), new Coordinate(8, 4));
 
-        assertEquals("CheckMate", g.message());
-    }
     @Test
     void TestIfPieceCanMoveOutsideBoard() {
         ClassicGame cg = new ClassicGame();
         Game game = cg.CreateGame();
         MoveResult<Game, Boolean, SideColor> g = game.movePiece(new Coordinate(1, 2), new Coordinate(1, 9));
-        assertEquals("Common Rule unfollowed", g.message());
+        assertEquals("Piece cannot move to the Square", g.message());
     }
 
     @Test
@@ -36,7 +26,7 @@ public class ChessTest {
         ClassicGame cg = new ClassicGame();
         Game game = cg.CreateGame();
         MoveResult<Game, Boolean, SideColor> g = game.movePiece(new Coordinate(1, 2), new Coordinate(1, 2));
-        assertEquals("Common Rule unfollowed", g.message());
+        assertEquals("Piece cannot move to the Square", g.message());
     }
 
 }

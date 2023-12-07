@@ -41,7 +41,7 @@ public class RookTest {
 
 
         Board board = new Board(8,8,blackPieces,whitePieces,pieceFactory);
-        game = new Game(board, SideColor.Black, new CheckersWinCondition(), new CheckersLegalMove(), new PromotionAndCastlingCondition());
+        game = new Game(board, SideColor.White, new ClassicWinCondition(), new ChessLegalMove(), new PromotionAndCastlingCondition());
     }
 
     @Test

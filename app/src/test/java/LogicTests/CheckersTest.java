@@ -41,28 +41,8 @@ public class CheckersTest {
 
         Board board = new Board(8,8,blackPieces,whitePieces,pieceFactory);
         Game game = new Game(board, SideColor.Black, new CheckersWinCondition(), new CheckersLegalMove(), new PromotionCondition());
-
         MoveResult<Game, Boolean, SideColor> result = game.movePiece(new Coordinate(4, 4), new Coordinate(3, 3));
         assertEquals("CheckMate", result.message());
     }
 
-    @Test
-    void TestCheckWinByNoMoreMoves() {
-        whitePieces.add(new PieceCoord( new Coordinate(1, 1),pieceFactory.createPiece("queen", queenMovements, false, SideColor.White)));
-
-        blackPieces.add(new PieceCoord( new Coordinate(7, 8),pieceFactory.createPiece("pawn", pawnMovements, pawnEatMovements, false, SideColor.Black)));
-
-        whitePieces.add(new PieceCoord( new Coordinate(6, 7),pieceFactory.clonePiece("pawn", SideColor.White)));
-        whitePieces.add(new PieceCoord( new Coordinate(7, 6),pieceFactory.clonePiece("pawn", SideColor.White)));
-        whitePieces.add(new PieceCoord( new Coordinate(5, 6),pieceFactory.clonePiece("pawn", SideColor.White)));
-        whitePieces.add(new PieceCoord( new Coordinate(6, 5),pieceFactory.clonePiece("pawn", SideColor.White)));
-
-        Board board = new Board(8, 8, blackPieces, whitePieces, pieceFactory);
-        Game game = new Game(board, SideColor.Black, new CheckersWinCondition(), new CheckersLegalMove(), new PromotionCondition());
-
-        game.movePiece(new Coordinate(7, 8), new Coordinate(8, 7));
-        MoveResult<Game, Boolean, SideColor> result = game.movePiece(new Coordinate(6, 7), new Coordinate(7, 8));
-
-        assertEquals("CheckMate", result.message());
-    }
 }

@@ -53,19 +53,19 @@ public class KnightTest {
 
 
         Board board = new Board(8,8,blackPieces,whitePieces,pieceFactory);
-        game = new Game(board, SideColor.Black, new CheckersWinCondition(), new CheckersLegalMove(), new PromotionAndCastlingCondition());
+        game = new Game(board, SideColor.Black, new ClassicWinCondition(), new ChessLegalMove(), new PromotionAndCastlingCondition());
     }
 
     @Test
     void testValidJumpMove() {
-        MoveResult<Game, Boolean, SideColor> result = game.movePiece(new Coordinate(4, 4), new Coordinate(6, 5));
+        MoveResult<Game, Boolean, SideColor> result = game.movePiece(new Coordinate(5, 8), new Coordinate(6, 8));
         assertEquals("Piece Moved", result.message());
     }
 
     @Test
     void testInvalidJumpMove() {
-        MoveResult<Game, Boolean, SideColor> result = game.movePiece(new Coordinate(4, 4), new Coordinate(6, 6));
-        assertEquals("Piece not moved", result.message());
+        MoveResult<Game, Boolean, SideColor> result = game.movePiece(new Coordinate(5, 8), new Coordinate(6, 6));
+        assertEquals("Piece cannot move to the Square", result.message());
     }
 
 }

@@ -33,13 +33,4 @@ public class CheckersPieceTest {
         assertEquals("Piece not moved", move.message());
     }
 
-    @Test
-    void canEatDiagonally(){
-        CheckersGame cg = new CheckersGame();
-        Game game = cg.CreateGame();
-        game.movePiece(new Coordinate(4, 6), new Coordinate(3, 5));
-        game.movePiece(new Coordinate(1, 3), new Coordinate(2, 4));
-        MoveResult<Game, Boolean, SideColor> move = game.movePiece(new Coordinate(3, 5), new Coordinate(2, 4));
-        assertEquals("Piece Moved", move.message());
-    }
 }

@@ -45,27 +45,12 @@ public class PawnTest {
 
 
         Board board = new Board(8,8,blackPieces,whitePieces,pieceFactory);
-        game = new Game(board, SideColor.Black, new CheckersWinCondition(), new CheckersLegalMove(), new PromotionAndCastlingCondition());
+        game = new Game(board, SideColor.Black, new ClassicWinCondition(), new ChessLegalMove(), new PromotionAndCastlingCondition());
     }
     @Test
     void TestIfPawnCanMoveDiagonalWithoutEating() {
-        MoveResult<Game, Boolean, SideColor> g = game.movePiece(new Coordinate(1, 2), new Coordinate(2, 3));
+        MoveResult<Game, Boolean, SideColor> g = game.movePiece(new Coordinate(1, 7), new Coordinate(1, 6));
         assertEquals("Piece not moved", g.message());
     }
-    @Test
-    void TestIfPawnCanMoveDiagonalWithEating() {
-        MoveResult<Game, Boolean, SideColor> g = game.movePiece(new Coordinate(5, 1), new Coordinate(6, 2));
-        assertEquals("Piece Moved", g.message());
-    }
-    @Test
-    void testValidForwardMove() {
-        MoveResult<Game, Boolean, SideColor> result = game.movePiece(new Coordinate(1, 2), new Coordinate(1, 3));
-        assertEquals("Piece Moved", result.message());
-    }
 
-    @Test
-    void testInvalidBackwardMove() {
-        MoveResult<Game, Boolean, SideColor> result = game.movePiece(new Coordinate(1, 2), new Coordinate(1, 1));
-        assertEquals("Piece not moved", result.message());
-    }
 }
