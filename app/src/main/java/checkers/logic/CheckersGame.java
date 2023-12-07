@@ -42,8 +42,8 @@ public class CheckersGame {
 
     private void createWhitePawns(List<PieceCoord> whitePieces, PieceFactory pieceFactory) {
         List<Move> pawnMovements = new ArrayList<>();
-        pawnMovements.add(new DiagonalMove(1, 1, false));
-        pawnMovements.add(new DiagonalMove(1, -1, false));
+        pawnMovements.add(new CheckersDiagonalMove(1, 1, false));
+        pawnMovements.add(new CheckersDiagonalMove(1, -1, false));
 
         List<Move> pawnEatMovements = new ArrayList<>();
         pawnEatMovements.add(new CheckersEatMove(1, 1));
