@@ -7,15 +7,26 @@ import common.results.GetResult;
 
 public class PromotionAndCastlingCondition implements SpecialCondition{
     @Override
-    public Board getBoard(Board board, Piece piece, Coordinate toSquare) {
+    public Board getBoard(Board board, Piece piece, Coordinate toSquare){
+        if (pawnReachedEnd(piece, toSquare, board)) {
+            return board.positionPiece(board.getPieceBuilder().promotePawn(piece.getColor(), piece.getId()), toSquare);
+        }
         return null;
     }
     @Override
     public boolean checkCondition(Board board, Piece piece, Coordinate toSquare) {
-        if (piece.getName().equals("king") && board.getPiece(toSquare).successfulResult().get().getName().equals("rook")) {
+        if (pawnReachedEnd(piece, toSquare, board)) {
+            return true;
+        }
+        else if (piece.getName().equals("king") && board.getPiece(toSquare).successfulResult().get().getName().equals("rook")) {
             return isPathClear(board, piece, toSquare);
         }
         return false;
+    }
+
+    private boolean pawnReachedEnd(Piece pieceMoving, Coordinate coordinate, Board board) {
+        // Check if a pawn reached the end of the board
+        return pieceMoving.getName().equals("pawn") && (coordinate.row() == 1 || coordinate.row() == board.getRows());
     }
 
     private boolean isPathClear(Board board, Piece piece, Coordinate toSquare) {
@@ -48,6 +59,12 @@ public class PromotionAndCastlingCondition implements SpecialCondition{
 
     @Override
     public boolean overrideCommonRule(Board board, Piece piece, Coordinate toSquare) {
-        return checkCondition(board, piece, toSquare);
+        if (pawnReachedEnd(piece, toSquare, board)) {
+            return false;
+        }
+        else if (piece.getName().equals("king") && board.getPiece(toSquare).successfulResult().get().getName().equals("rook")) {
+            return isPathClear(board, piece, toSquare);
+        }
+        return false;
     }
 }
